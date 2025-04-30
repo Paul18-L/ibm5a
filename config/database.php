@@ -1,8 +1,8 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "ingesoft";
-    private $username = "estudiante";
+    private $host = "local host";
+    private $db_name = "ibm5a";
+    private $username = "ibm5a";
     private $password = "estudiante1234";
     private $conn;
 
