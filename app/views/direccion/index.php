@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Sexos</title>
+    <title>Listar direcciones</title>
     <link rel="stylesheet" href="/ibm5a/public/css/style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Listar  Sexos</h1>
+    <h1>Listar  direcciones</h1>
     <a href="/ibm5a/app/views/sexo/create.php"><button>Agregar</button></a>
 
     <table>

@@ -1,53 +1,132 @@
 /* Estilos básicos para la aplicación */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f50202;
     margin: 0;
     padding: 0;
 }
 
+/* Contenedor principal */
 .container {
     width: 80%;
+    max-width: 1200px;
     margin: auto;
-    padding: 20px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Encabezado principal */
 h1 {
     text-align: center;
-    color: #333;
+    color: #480cee;
+    font-size: 36px;
+    margin-bottom: 20px;
 }
 
+/* Estilos para la tabla */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 th, td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     border: 1px solid #ddd;
+    font-size: 16px;
 }
 
+th {
+    background-color: #6523ff;
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #f1f1f1;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilo de botones */
 button {
-    background-color: #4CAF50;
+    background-color: #5323ff;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 12px 20px;
     cursor: pointer;
     font-size: 16px;
-    margin: 5px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
+/* Estilo de enlaces */
 a {
     text-decoration: none;
-    color: #333;
+    color: #4CAF50;
+    font-weight: bold;
+    transition: color 0.3s;
 }
 
 a:hover {
-    color: #4CAF50;
+    color: #333;
+}
+
+/* Formulario */
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
 }

@@ -45,9 +45,9 @@ public function read() {
      // Leer un solo sexo por ID
     public function readOne() {
         try {
-            $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 1";
+            $query = "SELECT * FROM " . $this->table_name . " WHERE idsexo = :idsexo LIMIT 1";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $stmt->bindParam(":idsexo", $this->idsexo, PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -60,10 +60,10 @@ public function read() {
     // Actualizar un sexo
     public function update() {
         try {
-            $query = "UPDATE " . $this->table_name . " SET nombre = :nombre WHERE id = :id";
+            $query = "UPDATE " . $this->table_name . " SET nombre = :nombre WHERE idsexo = :idsexo";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":nombre", $this->nombre, PDO::PARAM_STR);
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $stmt->bindParam(":idsexo", $this->idsexo, PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {

@@ -1,17 +1,12 @@
 
-
 <!DOCTYPE html>
 <?php
-
+// MEJORAS EN VISUAL CODE
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 // En SexoController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Sexo.php';
-
-
-
-
 
 
 
@@ -53,10 +48,10 @@ public function create() {
 }
 
 
-public function edit($id) {
+public function edit($idsexo) {
 
 // Pasar el ID al modelo antes de llamar a readOne()
-        $this->sexo->id = $id;
+        $this->sexo->idsexo = $idsexo;
         $sexo = $this->sexo->readOne();
 
         if (!$sexo) {
@@ -68,10 +63,10 @@ public function edit($id) {
 
 
 
-public function eliminar($id) {
+public function eliminar($idsexo) {
 
 // Pasar el ID al modelo antes de llamar a readOne()
-        $this->sexo->id = $id;
+        $this->sexo->idsexo = $idsexo;
         $sexo = $this->sexo->readOne();
 
         if (!$sexo) {
@@ -92,7 +87,7 @@ public function update() {
         echo "Formulario recibido";  // Verificar si llega el formulario
         if (isset($_POST['nombre'])) {
             $this->sexo->nombre = $_POST['nombre'];
-            $this->sexo->id = $_POST['id'];
+            $this->sexo->idsexo = $_POST['idsexo'];
             if ($this->sexo->update()) {
                 echo "Sexo actualizado exitosamente";
                 // Redirigir o mostrar un mensaje de éxito
@@ -144,7 +139,6 @@ public function update() {
 if (isset($_GET['action'])) {
     $controller = new SexoController();
 
-	   echo "hola";
     switch ($_GET['action']) {
         case 'create':
             $controller->create();
@@ -167,7 +161,7 @@ if (isset($_GET['action'])) {
             break;
     }
 } else {
-    echo "No se especificó ninguna acción.";
+//    echo "No se especificó ninguna acción.";
 }
 
 
