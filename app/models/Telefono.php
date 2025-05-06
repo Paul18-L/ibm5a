@@ -49,7 +49,7 @@ class Telefono {
         }
     }
 
-    // Leer un solo teléfono por ID
+    // Leer solo un teléfono por ID
     public function readOne() {
         try {
             $query = "SELECT * FROM " . $this->table_name . " WHERE idtelefono = :idtelefono LIMIT 1";
