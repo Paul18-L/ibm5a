@@ -1,7 +1,7 @@
 PHP
 
 <?php
-// Modelo EstadoCivil
+// Modelo estado civil 
 class EstadoCivil {
     private $conn;
     private $table_name = "estadocivil";
