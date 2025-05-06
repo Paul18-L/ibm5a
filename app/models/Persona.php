@@ -17,7 +17,7 @@ class Persona {
         $this->conn = $db;
     }
 
-    // Crear una nueva persona
+    
     public function create() {
         try {
             $query = "INSERT INTO " . $this->table_name . " (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
