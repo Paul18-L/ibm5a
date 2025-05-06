@@ -1,5 +1,5 @@
 <?php
-//controlador sexo
+
 class Sexo {
     private $conn;
     private $table_name = "sexo";
@@ -11,7 +11,7 @@ class Sexo {
         $this->conn = $db;
     }
 
-    // Crear un nuevo sexo
+    
     public function create() {
         try {
             $query = "INSERT INTO " . $this->table_name . " (nombre) VALUES (:nombre)";
