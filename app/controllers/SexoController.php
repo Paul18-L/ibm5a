@@ -29,12 +29,12 @@ class SexoController {
 
 public function create() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo "Formulario recibido";  // Verificar si llega el formulario
+        echo "Formulario recibido";  
         if (isset($_POST['nombre'])) {
             $this->sexo->nombre = $_POST['nombre'];
             if ($this->sexo->create()) {
                 echo "Sexo creado exitosamente";
-                // Redirigir o mostrar un mensaje de éxito
+                
             } else {
                 echo "Error al crear el sexo";
             }
@@ -44,7 +44,7 @@ public function create() {
     } else {
         echo "Método incorrecto";  // Verificar que el formulario no se envíe con GET
     }
-    die();  // Detener la ejecución para ver los mensajes
+    die();  
 }
 
 
