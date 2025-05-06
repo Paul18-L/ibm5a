@@ -40,7 +40,7 @@ class estadocivilController {
         } else {
             require_once '../app/views/estadocivil/create.php'; // Mostrar el formulario de creación
         }
-        die();  // Detener la ejecución para ver los mensajes
+        die();  // Detener la ejecución para visualizar los mensajes
     }
 
     public function edit($idestadocivil) {
