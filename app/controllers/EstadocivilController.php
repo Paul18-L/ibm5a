@@ -15,7 +15,7 @@ class estadocivilController {
         $this->estadocivil = new estadocivil($this->db);
     }
 
-    // Mostrar todos los estados civiles
+    // estados civiles 
     public function index() {
         $estadosciviles = $this->estadocivil->read();
         require_once '../app/views/estadocivil/index.php';
