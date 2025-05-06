@@ -135,7 +135,7 @@ public function update() {
 }
 }
 
-/// Manejo de la acción en la URL
+/// Manejo de acción en la URL
 if (isset($_GET['action'])) {
     $controller = new SexoController();
 
