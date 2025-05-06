@@ -95,7 +95,7 @@ class PersonaController {
                     exit;
                 }
             } else {
-                $error = "Faltan datos en el formulario de actualización.";
+                $error = "Faltan algunos datos en el formulario de actualización.";
                 $this->editForm($_POST['idpersona']);
                 exit;
             }
