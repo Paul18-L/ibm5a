@@ -11,7 +11,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php'; // Si 
 
 class DireccionController {
     private $direccion;
-    private $persona; // Para obtener la lista de personas (si es necesario en la vista)//
+    private $persona; // Para obtener la lista de personas (si es necesario en la vista)
     private $db;
 
     public function __construct() {
