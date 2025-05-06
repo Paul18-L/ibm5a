@@ -9,7 +9,7 @@ class Direccion {
     public $idpersona;
     public $nombre;
 
-    // Constructor para la conexión a la base de datos
+    // Constructor para la conexión a la base de datos//
     public function __construct($db) {
         $this->conn = $db;
     }
