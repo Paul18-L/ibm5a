@@ -4,7 +4,7 @@
 // MEJORAS EN VISUAL CODE
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-// En SexoController.php
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Sexo.php';
 
