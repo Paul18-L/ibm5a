@@ -1,5 +1,6 @@
 <?php
 // Modelo Direccion
+//Programador: Lopez Paul
 class Direccion {
     private $conn;
     private $table_name = "direccion";
