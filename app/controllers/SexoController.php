@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <?php
-// MEJORAS EN VISUAL CODE
+ commint // programador martinez casanova carlos andres.
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
