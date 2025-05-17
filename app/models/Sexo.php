@@ -3,7 +3,7 @@
 class Sexo {
     private $conn;
     private $table_name = "sexo";
-
+// modificado por programador martinez casanova carlos andres
     public $id;
     public $nombre;
 
