@@ -106,7 +106,7 @@ class TelefonoController {
     }
 }
 
-// Manejo de acción en la URL
+// modificado por la programadora garcia Arroyo britney
 if (isset($_GET['action'])) {
     $controller = new TelefonoController();
 
