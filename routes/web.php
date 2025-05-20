@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -46,4 +47,102 @@ if (empty($route) || $route === '/') {
             break;
 
         case 'persona/editForm':
-            if (isset
+            if (isset($_GET['id'])) {
+                (new PersonaController())->editForm($_GET['id']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+
+        case 'persona/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new PersonaController())->update();
+            }
+            break;
+
+        case 'persona/deleteForm':
+            if (isset($_GET['id'])) {
+                (new PersonaController())->deleteForm($_GET['id']);
+            } else {
+                echo "Error: Falta el ID para eliminar.";
+            }
+            break;
+
+        case 'persona/delete':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new PersonaController())->delete();
+            }
+            break;
+
+        // RUTAS PARA SEXO
+        case 'sexo':
+        case 'sexo/index':
+            (new SexoController())->index();
+            break;
+
+        case 'sexo/edit':
+            if (isset($_GET['idsexo'])) {
+                (new SexoController())->edit($_GET['idsexo']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+
+        case 'sexo/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new SexoController())->update();
+            }
+            break;
+
+        case 'sexo/eliminar':
+            if (isset($_GET['idsexo'])) {
+                (new SexoController())->eliminar($_GET['idsexo']);
+            } else {
+                echo "Error: Falta el ID para eliminar.";
+            }
+            break;
+
+        case 'sexo/delete':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new SexoController())->delete();
+            }
+            break;
+
+        // RUTAS PARA DIRECCION
+        case 'direccion':
+        case 'direccion/index':
+            (new DireccionController())->index();
+            break;
+
+        // RUTAS PARA TELEFONO
+        case 'telefono':
+        case 'telefono/index':
+            (new TelefonoController())->index();
+            break;
+
+        // RUTAS PARA ESTADO CIVIL
+        case 'estadocivil':
+        case 'estadocivil/index':
+            (new EstadocivilController())->index();
+            break;
+
+        case 'estadocivil/edit':
+            if (isset($_GET['idestadocivil'])) {
+                (new EstadocivilController())->edit($_GET['idestadocivil']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+
+        case 'estadocivil/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new EstadocivilController())->update();
+            }
+            break;
+
+        default:
+            echo "Error 404: Página no encontrada.";
+            break;
+    }
+}
+?>
