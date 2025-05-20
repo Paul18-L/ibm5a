@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar direcciones</title>
+    <title>Listar Direcciones</title>
     <link rel="stylesheet" href="/ibm5a/public/css/style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Listar  direcciones</h1>
-    <a href="/ibm5a/app/views/sexo/create.php"><button>Agregar</button></a>
+    <h1>Listar Direcciones</h1>
+    <a href="/ibm5a/app/views/direccion/create.php"><button>Agregar</button></a>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>ID Persona</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($sexos) && is_array($sexos)): ?>
-                <?php foreach ($sexos as $sexo): ?>
+            <?php if (!empty($direcciones) && is_array($direcciones)): ?>
+                <?php foreach ($direcciones as $direccion): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($sexo['idsexo']); ?></td>
-                        <td><?php echo htmlspecialchars($sexo['nombre']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
                         <td>
-    <a href="/ibm5a/public/sexo/edit?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>">
-        <button>Editar</button>
-    </a>
-    <a href="/ibm5a/public/sexo/eliminar?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>" 
-       onclick="return confirm('¿Estás seguro de eliminar este registro?');">
-        <button>Eliminar</button>
-    </a>
-</td>
+                            <a href="/ibm5a/app/controllers/DireccionController.php?action=editForm&id=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
+                                <button>Editar</button>
+                            </a>
+                            <a href="/ibm5a/app/controllers/DireccionController.php?action=deleteForm&id=<?php echo htmlspecialchars($direccion['iddireccion']); ?>" 
+                               onclick="return confirm('¿Estás seguro de eliminar esta dirección?');">
+                                <button>Eliminar</button>
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="3">No hay registros disponibles.</td>
+                    <td colspan="4">No hay registros disponibles.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
