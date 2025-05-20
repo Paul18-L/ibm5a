@@ -3,8 +3,13 @@ class EstadocivilController {
     private $estadocivil;
 
     public function __construct() {
+        require_once '../app/config/database.php'; // Incluye tu clase de conexión
         require_once '../app/models/Estadocivil.php';
-        $this->estadocivil = new Estadocivil();
+
+        $database = new Database(); // Crear objeto de conexión
+        $db = $database->getConnection(); // Obtener conexión PDO
+
+        $this->estadocivil = new Estadocivil($db); // Pasar la conexión al modelo
     }
 
     public function index() {
@@ -76,4 +81,5 @@ class EstadocivilController {
             die("Método incorrecto");
         }
     }
-} ?>
+}
+?>
