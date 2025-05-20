@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+// Cargar controladores
 require_once '../app/controllers/PersonaController.php';
 require_once '../app/controllers/SexoController.php';
 require_once '../app/controllers/DireccionController.php';
@@ -10,93 +10,95 @@ require_once '../app/controllers/EstadocivilController.php';
 
 $requestUri = $_SERVER["REQUEST_URI"];
 $basePath = '/ibm5a/public/';
-// Remover el prefijo basePath
+
+// Quitar el prefijo basePath y los parámetros GET
 $route = str_replace($basePath, '', $requestUri);
-$route = strtok($route, '?'); // Quitar parámetros GET
+$route = strtok($route, '?');
+
+// Agregar hoja de estilos
 echo '<link rel="stylesheet" type="text/css" href="/ibm5a/public/css/stylesMenu.css">';
 
-// Mostrar el menú si no se ha solicitado ninguna acción específica
+// Mostrar menú si no hay ruta específica
 if (empty($route) || $route === '/') {
     echo "<div class='menu-container'>";
     echo "<h1>Menú de Tablas</h1>";
     echo "<ul class='menu-list'>";
-    echo "<li><a href='" . $basePath . "persona/index'>Personas</a></li>";
-    echo "<li><a href='" . $basePath . "sexo/index'>Sexos</a></li>";
-    echo "<li><a href='" . $basePath . "direccion/index'>Direcciones</a></li>";
-    echo "<li><a href='" . $basePath . "telefono/index'>Teléfonos</a></li>";
-    echo "<li><a href='" . $basePath . "estadocivil/index'>Estados Civiles</a></li>";
+    echo "<li><a href='{$basePath}persona/index'>Personas</a></li>";
+    echo "<li><a href='{$basePath}sexo/index'>Sexos</a></li>";
+    echo "<li><a href='{$basePath}direccion/index'>Direcciones</a></li>";
+    echo "<li><a href='{$basePath}telefono/index'>Teléfonos</a></li>";
+    echo "<li><a href='{$basePath}estadocivil/index'>Estados Civiles</a></li>";
     echo "</ul>";
     echo "</div>";
 } else {
-    // Enrutar a los controladores según la ruta
     switch ($route) {
         case 'persona':
         case 'persona/index':
-            $controller = new PersonaController();
-            $controller->index();
+            (new PersonaController())->index();
             break;
+
         case 'sexo':
         case 'sexo/index':
-            $controller = new SexoController();
-            $controller->index();
+            (new SexoController())->index();
             break;
+
         case 'sexo/edit':
             if (isset($_GET['idsexo'])) {
-                $controller = new SexoController();
-                $controller->edit($_GET['idsexo']);
+                (new SexoController())->edit($_GET['idsexo']);
             } else {
                 echo "Error: Falta el ID para editar.";
             }
             break;
+
         case 'sexo/eliminar':
             if (isset($_GET['idsexo'])) {
-                $controller = new SexoController();
-                $controller->eliminar($_GET['idsexo']);
+                (new SexoController())->eliminar($_GET['idsexo']);
             } else {
-                echo "Error: Falta el ID para editar.";
+                echo "Error: Falta el ID para eliminar.";
             }
             break;
+
         case 'sexo/delete':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = new SexoController();
-                $controller->delete();
+                (new SexoController())->delete();
             }
             break;
+
         case 'sexo/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = new SexoController();
-                $controller->update();
+                (new SexoController())->update();
             }
             break;
+
         case 'direccion':
         case 'direccion/index':
-            $controller = new DireccionController();
-            $controller->index();
+            (new DireccionController())->index();
             break;
+
         case 'telefono':
         case 'telefono/index':
-            $controller = new TelefonoController();
-            $controller->index();
+            (new TelefonoController())->index();
             break;
+
         case 'estadocivil':
         case 'estadocivil/index':
-            $controller = new EstadoCivilController();
-            $controller->index();
+            (new EstadocivilController())->index();
             break;
+
         case 'estadocivil/edit':
             if (isset($_GET['idestadocivil'])) {
-                $controller = new EstadocivilController();
-                $controller->edit($_GET['idestadocivil']);
+                (new EstadocivilController())->edit($_GET['idestadocivil']);
             } else {
                 echo "Error: Falta el ID para editar.";
             }
             break;
+
         case 'estadocivil/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = new EstadocivilController();
-                $controller->update();
+                (new EstadocivilController())->update();
             }
             break;
+
         default:
             echo "Error 404: Página no encontrada.";
             break;
