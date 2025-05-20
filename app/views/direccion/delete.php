@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elininar Sexo</title>
+    <title>Eliminar dirrecion</title>
 </head>
 <body>
 
-<h1>Editar el Sexo</h1>
-<form action="/apple5a/public/sexo/delete" method="POST">
-    <input type="hidden" name="idsexo" value="<?php echo htmlspecialchars($sexo['idsexo']); ?>">
+<h1>Editar dirrecion</h1>
+<form action="/ibm5a/public/sexo/delete" method="POST">
+    <input type="hidden" name="idsexo" value="<?php echo htmlspecialchars($sexo['iddirrecion']); ?>">
     
     <label for="nombre">Nombre:</label>
     <input type="text" name="nombre" id="nombre" value="<?php echo htmlspecialchars($sexo['nombre']); ?>" required>
