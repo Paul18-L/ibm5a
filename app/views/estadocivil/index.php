@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Listar Estados Civiles</title>
-    <link rel="stylesheet" href="/ibm5a/public/css/style.css">
+    <link rel="stylesheet" href="/ibm5a/public/css/style.css" />
 </head>
 <body>
 
 <div class="container">
     <h1>Listar Estados Civiles</h1>
-    <a href="/ibm5a/app/views/estadocivil/create.php"><button>Agregar</button></a>
+    <a href="/ibm5a/public/estadocivil/create"><button>Agregar</button></a>
 
     <table>
         <thead>
@@ -30,7 +30,7 @@
                             <a href="/ibm5a/public/estadocivil/edit?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
                                 <button>Editar</button>
                             </a>
-                            <a href="/ibm5a/app/views/estadocivil/eliminar?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
+                            <a href="/ibm5a/public/estadocivil/eliminar?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
                                onclick="return confirm('¿Estás seguro de eliminar este registro?');">
                                 <button>Eliminar</button>
                             </a>
