@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 <?php
- // programador martinez casanova carlos andres.
+// MEJORAS EN VISUAL CODE
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
+// En SexoController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Sexo.php';
 
@@ -29,12 +29,12 @@ class SexoController {
 
 public function create() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo "Formulario recibido";  
+        echo "Formulario recibido";  // Verificar si llega el formulario
         if (isset($_POST['nombre'])) {
             $this->sexo->nombre = $_POST['nombre'];
             if ($this->sexo->create()) {
                 echo "Sexo creado exitosamente";
-                
+                // Redirigir o mostrar un mensaje de éxito
             } else {
                 echo "Error al crear el sexo";
             }
@@ -44,7 +44,7 @@ public function create() {
     } else {
         echo "Método incorrecto";  // Verificar que el formulario no se envíe con GET
     }
-    die();  
+    die();  // Detener la ejecución para ver los mensajes
 }
 
 
@@ -113,11 +113,10 @@ public function update() {
     // Eliminar un sexo
     public function delete() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['id'])) {
-            $this->sexo->id = $_POST['id'];
+        if (isset($_POST['idsexo'])) {
+            $this->sexo->idsexo = $_POST['idsexo'];
         if ($this->sexo->delete()) {
                 echo "Sexo borrado exitosamente";
-		die();
             header('Location: index.php?msg=deleted');
             exit;
         } else {
@@ -133,9 +132,32 @@ public function update() {
     die();  // Detener la ejecución para ver los mensajes
 
 }
+
+
+public function api() {
+
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        $sexos = $this->sexo->getAll();
+        header('Content-Type: application/json');
+        echo json_encode($sexos);
+        exit;
+
+
+
+    }
+
+
+
+
+
+
+
 }
 
-/// Manejo de acción en la URL
+/// Manejo de la acción en la URL
 if (isset($_GET['action'])) {
     $controller = new SexoController();
 
@@ -150,6 +172,11 @@ if (isset($_GET['action'])) {
          case 'delete':
 
             $controller->delete();
+            break;
+
+         case 'api':
+
+            $controller->api();
             break;
 
 
