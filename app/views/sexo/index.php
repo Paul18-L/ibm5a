@@ -9,8 +9,11 @@
 <body>
 
 <div class="container">
-    <h1>Listar  Sexos</h1>
-    <a href="/ibm5a/app/views/sexo/create.php"><button>Agregar</button></a>
+    <h1>Listar Sexos</h1>
+    
+    <a href="/ibm5a/app/views/sexo/create.php">
+        <button>Agregar</button>
+    </a>
 
     <table>
         <thead>
@@ -24,17 +27,17 @@
             <?php if (!empty($sexos) && is_array($sexos)): ?>
                 <?php foreach ($sexos as $sexo): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($sexo['idsexo']); ?></td>
-                        <td><?php echo htmlspecialchars($sexo['nombre']); ?></td>
+                        <td><?= htmlspecialchars($sexo['idsexo']) ?></td>
+                        <td><?= htmlspecialchars($sexo['nombre']) ?></td>
                         <td>
-    <a href="/ibm5a/public/sexo/edit?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>">
-        <button>Editar</button>
-    </a>
-    <a href="/ibm5a/public/sexo/eliminar?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>" 
-       onclick="return confirm('¿Estás seguro de eliminar este registro?');">
-        <button>Eliminar</button>
-    </a>
-</td>
+                            <a href="/ibm5a/public/sexo/edit?idsexo=<?= htmlspecialchars($sexo['idsexo']) ?>">
+                                <button>Editar</button>
+                            </a>
+                            <a href="/ibm5a/public/sexo/eliminar?idsexo=<?= htmlspecialchars($sexo['idsexo']) ?>" 
+                               onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                <button>Eliminar</button>
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
