@@ -10,7 +10,7 @@
 
 <div class="container">
     <h1>Listar Estados Civiles</h1>
-    <a href="/ibm5a/public/estadocivil/create"><button>Agregar</button></a>
+    <a href="/ibm5a/public/estadocivil?action=create"><button>Agregar</button></a>
 
     <table>
         <thead>
@@ -27,10 +27,10 @@
                         <td><?php echo htmlspecialchars($estadocivil['idestadocivil']); ?></td>
                         <td><?php echo htmlspecialchars($estadocivil['nombre']); ?></td>
                         <td>
-                            <a href="/ibm5a/public/estadocivil/edit?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
+                            <a href="/ibm5a/public/estadocivil?action=edit&idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
                                 <button>Editar</button>
                             </a>
-                            <a href="/ibm5a/public/estadocivil/eliminar?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
+                            <a href="/ibm5a/public/estadocivil?action=eliminar&idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
                                onclick="return confirm('¿Estás seguro de eliminar este registro?');">
                                 <button>Eliminar</button>
                             </a>
