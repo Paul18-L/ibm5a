@@ -3,7 +3,9 @@ class EstadocivilController {
     private $estadocivil;
 
     public function __construct() {
-        require_once '../app/config/database.php'; // Incluye tu clase de conexión
+        
+        
+        require_once __DIR__ . '/../config/database.php';// Incluye tu clase de conexión
         require_once '../app/models/Estadocivil.php';
 
         $database = new Database(); // Crear objeto de conexión
