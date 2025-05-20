@@ -1,7 +1,7 @@
 /* Estilos básicos para el menú */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ff0808;
+    background-color: #f4f6f8;
     margin: 0;
     padding: 0;
 }
@@ -10,18 +10,17 @@ body {
 .menu-container {
     width: 80%;
     max-width: 1000px;
-    margin: auto;
+    margin: 50px auto;
     padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Título del menú */
 h1 {
     text-align: center;
-    color: #a40fdf;
+    color: #4a69bd;
     font-size: 32px;
     margin-bottom: 30px;
 }
@@ -42,26 +41,26 @@ h1 {
     padding: 12px 20px;
     text-decoration: none;
     font-size: 18px;
-    color: #333;
-    background-color: #f1f1f1;
-    border-radius: 5px;
+    color: #2f3542;
+    background-color: #f1f2f6;
+    border-radius: 6px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Efecto de hover para los enlaces */
 .menu-list li a:hover {
-    background-color: #8400ff;
-    color: white;
+    background-color: #70a1ff;
+    color: #ffffff;
 }
 
-/* Agregar sombra y transiciones */
+/* Agregar sombra al hacer clic */
 .menu-list li a:active {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo para los enlaces de error */
 .error-message {
     text-align: center;
     font-size: 18px;
-    color: #d9534f;
+    color: #e74c3c;
 }
