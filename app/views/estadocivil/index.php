@@ -1,51 +1,44 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Listar Estados Civiles</title>
     <link rel="stylesheet" href="/ibm5a/public/css/style.css" />
 </head>
-<body>
-
-<div class="container">
+<body><div class="container">
     <h1>Listar Estados Civiles</h1>
-    <a href="/ibm5a/public/estadocivil?action=create"><button>Agregar</button></a>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($estadosciviles) && is_array($estadosciviles)): ?>
-                <?php foreach ($estadosciviles as $estadocivil): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($estadocivil['idestadocivil']); ?></td>
-                        <td><?php echo htmlspecialchars($estadocivil['nombre']); ?></td>
-                        <td>
-                            <a href="/ibm5a/public/estadocivil?action=edit&idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
-                                <button>Editar</button>
-                            </a>
-                            <a href="/ibm5a/public/estadocivil?action=eliminar&idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
-                               onclick="return confirm('¿Estás seguro de eliminar este registro?');">
-                                <button>Eliminar</button>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+    <a href="/ibm5a/public/estadocivil/create"><button>Agregar</button></a><table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($estadosciviles) && is_array($estadosciviles)): ?>
+            <?php foreach ($estadosciviles as $estadocivil): ?>
                 <tr>
-                    <td colspan="3">No hay registros disponibles.</td>
+                    <td><?php echo htmlspecialchars($estadocivil['idestadocivil']); ?></td>
+                    <td><?php echo htmlspecialchars($estadocivil['nombre']); ?></td>
+                    <td>
+                        <a href="/ibm5a/public/estadocivil/edit?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
+                            <button>Editar</button>
+                        </a>
+                        <a href="/ibm5a/public/estadocivil/eliminar?idestadocivil=<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>"
+                           onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                            <button>Eliminar</button>
+                        </a>
+                    </td>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="3">No hay registros disponibles.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
-<script src="/ibm5a/public/js/script.js"></script>
-</body>
+</div><script src="/ibm5a/public/js/script.js"></script></body>
 </html>
