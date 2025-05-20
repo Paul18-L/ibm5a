@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Sexos</title>
-    <link rel="stylesheet" href="/ibm5a/public/css/style.css">
+    <link rel="stylesheet" href="/apple6b/public/css/style.css">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
     <a href="/ibm5a/public/sexo/edit?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>">
         <button>Editar</button>
     </a>
-    <a href="/ibm5a/public/sexo/eliminar?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>" 
+    <a href="/apple6b/public/sexo/eliminar?idsexo=<?php echo htmlspecialchars($sexo['idsexo']); ?>" 
        onclick="return confirm('¿Estás seguro de eliminar este registro?');">
         <button>Eliminar</button>
     </a>
