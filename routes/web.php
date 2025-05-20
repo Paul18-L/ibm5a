@@ -32,76 +32,18 @@ if (empty($route) || $route === '/') {
     echo "</div>";
 } else {
     switch ($route) {
+
+        // RUTAS PARA PERSONA
         case 'persona':
         case 'persona/index':
             (new PersonaController())->index();
             break;
 
-        case 'sexo':
-        case 'sexo/index':
-            (new SexoController())->index();
-            break;
-
-        case 'sexo/edit':
-            if (isset($_GET['idsexo'])) {
-                (new SexoController())->edit($_GET['idsexo']);
-            } else {
-                echo "Error: Falta el ID para editar.";
-            }
-            break;
-
-        case 'sexo/eliminar':
-            if (isset($_GET['idsexo'])) {
-                (new SexoController())->eliminar($_GET['idsexo']);
-            } else {
-                echo "Error: Falta el ID para eliminar.";
-            }
-            break;
-
-        case 'sexo/delete':
+        case 'persona/create':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                (new SexoController())->delete();
+                (new PersonaController())->create();
             }
             break;
 
-        case 'sexo/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                (new SexoController())->update();
-            }
-            break;
-
-        case 'direccion':
-        case 'direccion/index':
-            (new DireccionController())->index();
-            break;
-
-        case 'telefono':
-        case 'telefono/index':
-            (new TelefonoController())->index();
-            break;
-
-        case 'estadocivil':
-        case 'estadocivil/index':
-            (new EstadocivilController())->index();
-            break;
-
-        case 'estadocivil/edit':
-            if (isset($_GET['idestadocivil'])) {
-                (new EstadocivilController())->edit($_GET['idestadocivil']);
-            } else {
-                echo "Error: Falta el ID para editar.";
-            }
-            break;
-
-        case 'estadocivil/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                (new EstadocivilController())->update();
-            }
-            break;
-
-        default:
-            echo "Error 404: Página no encontrada.";
-            break;
-    }
-}
-?>
+        case 'persona/editForm':
+            if (isset
