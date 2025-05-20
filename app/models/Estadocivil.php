@@ -1,18 +1,20 @@
 <?php
-// Modelo EstadoCivil
 class EstadoCivil {
-    private $conn;
-    private $table_name = "estadocivil";
+    private PDO $conn;  // especifica tipo PDO
+    private string $table_name = "estadocivil";
 
-    public $idestadocivil;
-    public $nombre;
+    public ?int $idestadocivil = null;
+    public ?string $nombre = null;
 
     public function __construct($db) {
+        if (!$db instanceof PDO) {
+            throw new InvalidArgumentException("La conexión debe ser un objeto PDO.");
+        }
         $this->conn = $db;
     }
 
     // Crear un nuevo estado civil
-    public function create() {
+    public function create(): bool {
         try {
             $query = "INSERT INTO {$this->table_name} (nombre) VALUES (:nombre)";
             $stmt = $this->conn->prepare($query);
@@ -25,7 +27,7 @@ class EstadoCivil {
     }
 
     // Leer todos los estados civiles
-    public function read() {
+    public function read(): array {
         try {
             $query = "SELECT * FROM {$this->table_name} ORDER BY idestadocivil ASC";
             $stmt = $this->conn->prepare($query);
@@ -38,13 +40,14 @@ class EstadoCivil {
     }
 
     // Leer un solo estado civil por ID
-    public function readOne() {
+    public function readOne(): ?array {
         try {
             $query = "SELECT * FROM {$this->table_name} WHERE idestadocivil = :idestadocivil LIMIT 1";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
         } catch (PDOException $e) {
             error_log("Error en readOne(): " . $e->getMessage());
             return null;
@@ -52,7 +55,7 @@ class EstadoCivil {
     }
 
     // Actualizar un estado civil
-    public function update() {
+    public function update(): bool {
         try {
             $query = "UPDATE {$this->table_name} SET nombre = :nombre WHERE idestadocivil = :idestadocivil";
             $stmt = $this->conn->prepare($query);
@@ -66,9 +69,9 @@ class EstadoCivil {
     }
 
     // Eliminar un estado civil
-    public function delete() {
+    public function delete(): bool {
         try {
-            if (!isset($this->idestadocivil) || !is_numeric($this->idestadocivil)) {
+            if (empty($this->idestadocivil) || !is_numeric($this->idestadocivil)) {
                 error_log("ID inválido en delete()");
                 return false;
             }
