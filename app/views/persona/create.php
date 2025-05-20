@@ -10,34 +10,30 @@
 
     <label for="idsexo">Sexo:</label>
     <select name="idsexo" id="idsexo" required>
-        <?php
-        // Aquí deberías obtener los datos de la tabla sexo desde tu controlador
-        // y generar las opciones del select dinámicamente.
-        // Ejemplo (asumiendo que tienes una variable $sexos en tu vista):
-        if (isset($sexos) && !empty($sexos)):
-            foreach ($sexos as $sexo):
-                echo '<option value="' . $sexo['idsexo'] . '">' . htmlspecialchars($sexo['nombre']) . '</option>';
-            endforeach;
-        else:
-            echo '<option value="">No hay sexos disponibles</option>';
-        endif;
-        ?>
+        <option value="">-- Seleccione --</option>
+        <?php if (!empty($sexos)): ?>
+            <?php foreach ($sexos as $sexo): ?>
+                <option value="<?= htmlspecialchars($sexo['idsexo']) ?>">
+                    <?= htmlspecialchars($sexo['nombre']) ?>
+                </option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option value="">No hay sexos disponibles</option>
+        <?php endif; ?>
     </select><br><br>
 
     <label for="idestadocivil">Estado Civil:</label>
     <select name="idestadocivil" id="idestadocivil" required>
-        <?php
-        // De manera similar, aquí deberías obtener los datos de la tabla estadocivil
-        // y generar las opciones del select.
-        // Ejemplo (asumiendo que tienes una variable $estadosCiviles en tu vista):
-        if (isset($estadosCiviles) && !empty($estadosCiviles)):
-            foreach ($estadosCiviles as $estadoCivil):
-                echo '<option value="' . $estadoCivil['idestadocivil'] . '">' . htmlspecialchars($estadoCivil['nombre']) . '</option>';
-            endforeach;
-        else:
-            echo '<option value="">No hay estados civiles disponibles</option>';
-        endif;
-        ?>
+        <option value="">-- Seleccione --</option>
+        <?php if (!empty($estadosCiviles)): ?>
+            <?php foreach ($estadosCiviles as $estado): ?>
+                <option value="<?= htmlspecialchars($estado['idestadocivil']) ?>">
+                    <?= htmlspecialchars($estado['nombre']) ?>
+                </option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option value="">No hay estados civiles disponibles</option>
+        <?php endif; ?>
     </select><br><br>
 
     <input type="submit" value="Crear Persona">
