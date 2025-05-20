@@ -1,51 +1,56 @@
 <?php
-// PersonaController.php
+// En PersonaController.php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../models/Persona.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
 
 class PersonaController {
     private $persona;
+    private $db;
 
     public function __construct() {
-        $db = (new Database())->getConnection();
-        $this->persona = new Persona($db);
+        $this->db = (new Database())->getConnection();
+        $this->persona = new Persona($this->db);
     }
 
     public function index() {
         $personas = $this->persona->read();
-        require_once __DIR__ . '/../views/persona/index.php';
+        require_once '../app/views/persona/index.php';
     }
 
     public function createForm() {
-        require_once __DIR__ . '/../views/persona/create.php';
+        require_once '../app/views/persona/create.php';
     }
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $required = ['nombres', 'apellidos', 'fechanacimiento', 'idsexo', 'idestadocivil'];
-            foreach ($required as $field) {
-                if (empty($_POST[$field])) {
-                    $error = "Faltan datos en el formulario.";
-                    require_once __DIR__ . '/../views/persona/create.php';
-                    return;
+            if (
+                isset($_POST['nombres']) &&
+                isset($_POST['apellidos']) &&
+                isset($_POST['fechanacimiento']) &&
+                isset($_POST['idsexo']) &&
+                isset($_POST['idestadocivil'])
+            ) {
+                $this->persona->nombres = $_POST['nombres'];
+                $this->persona->apellidos = $_POST['apellidos'];
+                $this->persona->fechanacimiento = $_POST['fechanacimiento'];
+                $this->persona->idsexo = $_POST['idsexo'];
+                $this->persona->idestadocivil = $_POST['idestadocivil'];
+
+                if ($this->persona->create()) {
+                    header('Location: index.php?msg=created');
+                    exit;
+                } else {
+                    $error = "Error al crear la persona.";
+                    require_once '../app/views/persona/create.php';
+                    exit;
                 }
-            }
-
-            $this->persona->nombres = $_POST['nombres'];
-            $this->persona->apellidos = $_POST['apellidos'];
-            $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-            $this->persona->idsexo = $_POST['idsexo'];
-            $this->persona->idestadocivil = $_POST['idestadocivil'];
-
-            if ($this->persona->create()) {
-                header('Location: index.php?msg=created');
-                exit;
             } else {
-                $error = "Error al crear la persona.";
-                require_once __DIR__ . '/../views/persona/create.php';
+                $error = "Faltan datos en el formulario.";
+                require_once '../app/views/persona/create.php';
+                exit;
             }
         } else {
             header('Location: index.php');
@@ -61,33 +66,38 @@ class PersonaController {
             die("Error: No se encontró la persona.");
         }
 
-        require_once __DIR__ . '/../views/persona/edit.php';
+        require_once '../app/views/persona/edit.php';
     }
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $required = ['idpersona', 'nombres', 'apellidos', 'fechanacimiento', 'idsexo', 'idestadocivil'];
-            foreach ($required as $field) {
-                if (empty($_POST[$field])) {
-                    $error = "Faltan datos en el formulario.";
+            if (
+                isset($_POST['idpersona']) &&
+                isset($_POST['nombres']) &&
+                isset($_POST['apellidos']) &&
+                isset($_POST['fechanacimiento']) &&
+                isset($_POST['idsexo']) &&
+                isset($_POST['idestadocivil'])
+            ) {
+                $this->persona->idpersona = $_POST['idpersona'];
+                $this->persona->nombres = $_POST['nombres'];
+                $this->persona->apellidos = $_POST['apellidos'];
+                $this->persona->fechanacimiento = $_POST['fechanacimiento'];
+                $this->persona->idsexo = $_POST['idsexo'];
+                $this->persona->idestadocivil = $_POST['idestadocivil'];
+
+                if ($this->persona->update()) {
+                    header('Location: index.php?msg=updated');
+                    exit;
+                } else {
+                    $error = "Error al actualizar la persona.";
                     $this->editForm($_POST['idpersona']);
-                    return;
+                    exit;
                 }
-            }
-
-            $this->persona->idpersona = $_POST['idpersona'];
-            $this->persona->nombres = $_POST['nombres'];
-            $this->persona->apellidos = $_POST['apellidos'];
-            $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-            $this->persona->idsexo = $_POST['idsexo'];
-            $this->persona->idestadocivil = $_POST['idestadocivil'];
-
-            if ($this->persona->update()) {
-                header('Location: index.php?msg=updated');
-                exit;
             } else {
-                $error = "Error al actualizar la persona.";
+                $error = "Faltan algunos datos en el formulario de actualización.";
                 $this->editForm($_POST['idpersona']);
+                exit;
             }
         } else {
             header('Location: index.php');
@@ -103,29 +113,42 @@ class PersonaController {
             die("Error: No se encontró la persona.");
         }
 
-        require_once __DIR__ . '/../views/persona/delete.php';
+        require_once '../app/views/persona/delete.php';
     }
 
     public function delete() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idpersona'])) {
-            $this->persona->idpersona = $_POST['idpersona'];
-            if ($this->persona->delete()) {
-                header('Location: index.php?msg=deleted');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['idpersona'])) {
+                $this->persona->idpersona = $_POST['idpersona'];
+                if ($this->persona->delete()) {
+                    header('Location: index.php?msg=deleted');
+                    exit;
+                } else {
+                    header('Location: index.php?msg=error_delete');
+                    exit;
+                }
             } else {
-                header('Location: index.php?msg=error_delete');
+                header('Location: index.php?msg=no_id_delete');
+                exit;
             }
         } else {
-            header('Location: index.php?msg=no_id_delete');
+            header('Location: index.php');
+            exit;
         }
-        exit;
     }
 }
 
-// Ruteador simple
 if (isset($_GET['action'])) {
     $controller = new PersonaController();
     $action = $_GET['action'];
-    $id = $_GET['id'] ?? $_POST['idpersona'] ?? null;
+
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    } elseif (isset($_POST['idpersona'])) {
+        $id = $_POST['idpersona'];
+    } else {
+        $id = null;
+    }
 
     switch ($action) {
         case 'index':
@@ -138,13 +161,21 @@ if (isset($_GET['action'])) {
             $controller->create();
             break;
         case 'editForm':
-            $id ? $controller->editForm($id) : die("ID no especificado.");
+            if ($id !== null) {
+                $controller->editForm($id);
+            } else {
+                echo "Error: ID de persona no especificado para editar.";
+            }
             break;
         case 'update':
             $controller->update();
             break;
         case 'deleteForm':
-            $id ? $controller->deleteForm($id) : die("ID no especificado.");
+            if ($id !== null) {
+                $controller->deleteForm($id);
+            } else {
+                echo "Error: ID de persona no especificado para eliminar.";
+            }
             break;
         case 'delete':
             $controller->delete();
@@ -153,9 +184,6 @@ if (isset($_GET['action'])) {
             echo "Acción no válida.";
             break;
     }
-} else {
-    // Si no se define ninguna acción, puedes redirigir o mostrar un mensaje
-    header('Location: index.php?action=index');
-    exit;
 }
 ?>
+
