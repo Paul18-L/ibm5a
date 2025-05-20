@@ -76,4 +76,4 @@ class EstadocivilController {
             die("Método incorrecto");
         }
     }
-}
+} ?>
