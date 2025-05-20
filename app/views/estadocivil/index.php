@@ -7,7 +7,7 @@
 </head>
 <body><div class="container">
     <h1>Listar Estados Civiles</h1>
-    <a href="/ibm5a/public/estadocivil/create"><button>Agregar</button></a><table>
+    <a href="/ibm5a/public/estadocivil?action=create"><button>Agregar</button></a>
     <thead>
         <tr>
             <th>ID</th>
