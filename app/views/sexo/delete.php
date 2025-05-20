@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Sexo</title>
+    <title>Elininar Sexo</title>
 </head>
 <body>
 
 <h1>Editar el Sexo</h1>
-<form action="/ibm5a/public/sexo/delete" method="POST">
+<form action="/ibm6b/public/sexo/delete" method="POST">
     <input type="hidden" name="idsexo" value="<?php echo htmlspecialchars($sexo['idsexo']); ?>">
     
     <label for="nombre">Nombre:</label>
