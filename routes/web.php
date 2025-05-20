@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -17,7 +16,7 @@ $route = str_replace($basePath, '', $requestUri);
 $route = strtok($route, '?');
 
 // Agregar hoja de estilos
-echo '<link rel="stylesheet" type="text/css" href="/ibm5a/public/css/stylesMenu.css">';
+echo '<link rel="stylesheet" type="text/css" href="' . $basePath . 'css/stylesMenu.css">';
 
 // Mostrar menú si no hay ruta específica
 if (empty($route) || $route === '/') {
@@ -41,7 +40,9 @@ if (empty($route) || $route === '/') {
             break;
 
         case 'persona/create':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new PersonaController())->createForm();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (new PersonaController())->create();
             }
             break;
@@ -78,6 +79,14 @@ if (empty($route) || $route === '/') {
         case 'sexo':
         case 'sexo/index':
             (new SexoController())->index();
+            break;
+
+        case 'sexo/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new SexoController())->createForm();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new SexoController())->create();
+            }
             break;
 
         case 'sexo/edit':
@@ -126,6 +135,14 @@ if (empty($route) || $route === '/') {
             (new EstadocivilController())->index();
             break;
 
+        case 'estadocivil/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new EstadocivilController())->createForm();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new EstadocivilController())->create();
+            }
+            break;
+
         case 'estadocivil/edit':
             if (isset($_GET['idestadocivil'])) {
                 (new EstadocivilController())->edit($_GET['idestadocivil']);
@@ -137,6 +154,20 @@ if (empty($route) || $route === '/') {
         case 'estadocivil/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (new EstadocivilController())->update();
+            }
+            break;
+
+        case 'estadocivil/eliminar':
+            if (isset($_GET['idestadocivil'])) {
+                (new EstadocivilController())->eliminar($_GET['idestadocivil']);
+            } else {
+                echo "Error: Falta el ID para eliminar.";
+            }
+            break;
+
+        case 'estadocivil/delete':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new EstadocivilController())->delete();
             }
             break;
 
