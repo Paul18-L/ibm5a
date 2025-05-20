@@ -9,7 +9,7 @@
 
 <h1>Editar estado civil</h1>
 
-<form action="/apple5a/public/estadocivil/update" method="POST">
+<form action="/ibm5a/public/estadocivil/update" method="POST">
     <input type="hidden" name="idestadocivil" value="<?php echo htmlspecialchars($estadocivil['idestadocivil']); ?>">
 
     <label for="nombre">Nombre:</label>
