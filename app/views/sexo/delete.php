@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elininar Sexo</title>
+    <title>Eliminar Sexo</title>
 </head>
 <body>
 
