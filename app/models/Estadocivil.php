@@ -14,7 +14,7 @@ class EstadoCivil {
     // Crear un nuevo estado civil
     public function create() {
         try {
-            $query = "INSERT INTO " . $this->table_name . " (nombre) VALUES (:nombre)";
+            $query = "INSERT INTO {$this->table_name} (nombre) VALUES (:nombre)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":nombre", $this->nombre, PDO::PARAM_STR);
             return $stmt->execute();
@@ -27,7 +27,7 @@ class EstadoCivil {
     // Leer todos los estados civiles
     public function read() {
         try {
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY idestadocivil ASC";
+            $query = "SELECT * FROM {$this->table_name} ORDER BY idestadocivil ASC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,11 +40,11 @@ class EstadoCivil {
     // Leer un solo estado civil por ID
     public function readOne() {
         try {
-            $query = "SELECT * FROM " . $this->table_name . " WHERE idestadocivil = :idestadocivil LIMIT 1";
+            $query = "SELECT * FROM {$this->table_name} WHERE idestadocivil = :idestadocivil LIMIT 1";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         } catch (PDOException $e) {
             error_log("Error en readOne(): " . $e->getMessage());
             return null;
@@ -54,7 +54,7 @@ class EstadoCivil {
     // Actualizar un estado civil
     public function update() {
         try {
-            $query = "UPDATE " . $this->table_name . " SET nombre = :nombre WHERE idestadocivil = :idestadocivil";
+            $query = "UPDATE {$this->table_name} SET nombre = :nombre WHERE idestadocivil = :idestadocivil";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":nombre", $this->nombre, PDO::PARAM_STR);
             $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
@@ -68,12 +68,12 @@ class EstadoCivil {
     // Eliminar un estado civil
     public function delete() {
         try {
-            if (empty($this->idestadocivil)) {
-                error_log("ID vacío en delete()");
+            if (!isset($this->idestadocivil) || !is_numeric($this->idestadocivil)) {
+                error_log("ID inválido en delete()");
                 return false;
             }
 
-            $query = "DELETE FROM " . $this->table_name . " WHERE idestadocivil = :idestadocivil";
+            $query = "DELETE FROM {$this->table_name} WHERE idestadocivil = :idestadocivil";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
             return $stmt->execute();
