@@ -1,6 +1,6 @@
 <?php
         die();  // Detener la ejecución para visualizar los mensajes
-    }
+    
 
     public function edit($idestadocivil) {
         // Pasar el ID al modelo antes de llamar a readOne()
