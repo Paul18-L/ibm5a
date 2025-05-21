@@ -8,16 +8,20 @@
 <body>
 
 <h1>Editar Teléfono</h1>
+
 <form action="/ibm5a/public/telefono/update" method="POST">
     <input type="hidden" name="idtelefono" value="<?php echo htmlspecialchars($telefono['idtelefono']); ?>">
-    
+
+    <label for="idpersona">ID de Persona:</label>
+    <input type="number" name="idpersona" id="idpersona" value="<?php echo htmlspecialchars($telefono['idpersona']); ?>" required>
+
     <label for="numero">Número:</label>
     <input type="text" name="numero" id="numero" value="<?php echo htmlspecialchars($telefono['numero']); ?>" required>
-    
+
     <input type="submit" value="Actualizar">
 </form>
 
-<a href="index">Volver al listado</a>
+<a href="/ibm5a/public/telefono/index">Volver al listado</a>
 
 </body>
 </html>
