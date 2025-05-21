@@ -1,66 +1,133 @@
 <?php
-require_once __DIR__ . '/../models/Telefono.php';
-require_once __DIR__ . '/../config/database.php';
+// Modelo Telefono
+class Telefono {
+    private $conn;
+    private $table_name = "telefono";
 
-class TelefonoController {
-    private $db;
-    private $telefonoModel;
+    // Propiedades de la tabla telefono
+    public $idtelefono;
+    public $idpersona;
+    public $numero;
 
-    public function __construct() {
-        $this->db = Database::connect();
-        $this->telefonoModel = new Telefono($this->db);
+    // Constructor para la conexión a la base de datos
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
-    // Mostrar todos los teléfonos
-    public function index() {
-        $telefonos = $this->telefonoModel->read();
-        require_once __DIR__ . '/../views/telefono/index.php';
-    }
-
-    // Mostrar formulario de creación
+    // Crear un nuevo teléfono
     public function create() {
-        require_once __DIR__ . '/../views/telefono/create.php';
-    }
+        try {
+            $query = "INSERT INTO " . $this->table_name . " (idpersona, numero)
+                      VALUES (:idpersona, :numero)";
 
-    // Guardar un nuevo teléfono
-    public function store() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->telefonoModel->idpersona = $_POST['idpersona'];
-            $this->telefonoModel->numero = $_POST['numero'];
-            $this->telefonoModel->create();
+            $stmt = $this->conn->prepare($query);
+
+            // Bind de los valores
+            $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
+            $stmt->bindParam(":numero", $this->numero, PDO::PARAM_STR);
+
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
+            error_log("Error en create() para telefono: " . $e->getMessage());
+            return false;
         }
-        header("Location: /ibm5a/public/telefono/index");
-        exit;
     }
 
-    // Mostrar formulario de edición
-    public function edit() {
-        if (isset($_GET['idtelefono'])) {
-            $this->telefonoModel->idtelefono = $_GET['idtelefono'];
-            $telefono = $this->telefonoModel->readOne();
-            require_once __DIR__ . '/../views/telefono/edit.php';
+    // Leer todos los teléfonos
+    public function read() {
+        try {
+            $query = "SELECT * FROM " . $this->table_name;
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error en read() para telefono: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Leer solo un teléfono por ID
+    public function readOne() {
+        try {
+            $query = "SELECT * FROM " . $this->table_name . " WHERE idtelefono = :idtelefono LIMIT 1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":idtelefono", $this->idtelefono, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error en readOne() para telefono: " . $e->getMessage());
+            return null;
         }
     }
 
     // Actualizar un teléfono
     public function update() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->telefonoModel->idtelefono = $_POST['idtelefono'];
-            $this->telefonoModel->idpersona = $_POST['idpersona'];
-            $this->telefonoModel->numero = $_POST['numero'];
-            $this->telefonoModel->update();
+        try {
+            $query = "UPDATE " . $this->table_name . " SET
+                        idpersona = :idpersona,
+                        numero = :numero
+                      WHERE idtelefono = :idtelefono";
+
+            $stmt = $this->conn->prepare($query);
+
+            // Bind de los valores
+            $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
+            $stmt->bindParam(":numero", $this->numero, PDO::PARAM_STR);
+            $stmt->bindParam(":idtelefono", $this->idtelefono, PDO::PARAM_INT);
+
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
+            error_log("Error en update() para telefono: " . $e->getMessage());
+            return false;
         }
-        header("Location: /ibm5a/public/telefono/index");
-        exit;
     }
 
     // Eliminar un teléfono
     public function delete() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->telefonoModel->idtelefono = $_POST['idtelefono'];
-            $this->telefonoModel->delete();
+        try {
+            if (empty($this->idtelefono)) {
+                return false;
+            }
+            error_log("Intentando eliminar el teléfono con ID: " . $this->idtelefono);
+
+            $query = "DELETE FROM " . $this->table_name . " WHERE idtelefono = :idtelefono";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":idtelefono", $this->idtelefono, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                error_log("Teléfono con ID " . $this->idtelefono . " eliminado correctamente.");
+                return true;
+            } else {
+                error_log("Error en delete() para telefono: La consulta no se ejecutó correctamente.");
+                return false;
+            }
+
+        } catch (PDOException $e) {
+            error_log("Error en delete() para telefono: " . $e->getMessage());
+            return false;
         }
-        header("Location: /ibm5a/public/telefono/index");
-        exit;
+    }
+
+    // Leer todos los teléfonos asociados a una persona específica
+    public function readByPersona($idpersona) {
+        try {
+            $query = "SELECT * FROM " . $this->table_name . " WHERE idpersona = :idpersona";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":idpersona", $idpersona, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error en readByPersona() para telefono: " . $e->getMessage());
+            return [];
+        }
     }
 }
+?>
