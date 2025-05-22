@@ -6,7 +6,7 @@
     <title>Editar Teléfono</title>
 </head>
 <body>
-
+// Editar Teléfono 
 <h1>Editar Teléfono</h1>
 
 <form action="/ibm5a/public/telefono/update" method="POST">
