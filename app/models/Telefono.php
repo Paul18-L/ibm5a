@@ -4,7 +4,6 @@ class Telefono {
     private $conn;
     private $table_name = "telefono";
 
-    // Propiedades de la tabla telefono
     public $idtelefono;
     public $idpersona;
     public $numero;
