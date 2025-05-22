@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// En programador Ortiz Lara Nicole.php
+// El Programador Ortiz Lara Nicole.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Telefono.php';
 
@@ -106,7 +106,6 @@ class TelefonoController {
     }
 }
 
-// modificado por la programadora garcia Arroyo britney
 if (isset($_GET['action'])) {
     $controller = new TelefonoController();
 
