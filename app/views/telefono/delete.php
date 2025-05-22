@@ -6,7 +6,7 @@
     <title>Eliminar Teléfono</title>
 </head>
 <body>
-
+ 
 <h1>¿Estás seguro de que deseas eliminar este teléfono?</h1>
 
 <form action="/ibm5a/public/telefono/delete" method="POST">
