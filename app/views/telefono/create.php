@@ -1,5 +1,5 @@
 <h1>Agregar Teléfono</h1>
-// agregar Teléfono 
+ 
 <form action="/ibm5a/public/telefono/store" method="POST">
     <label for="idpersona">ID de Persona:</label>
     <input type="number" name="idpersona" id="idpersona" required>
