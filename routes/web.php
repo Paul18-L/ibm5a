@@ -73,6 +73,10 @@ if (empty($route) || $route === '/') {
         case 'persona/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') (new PersonaController())->update();
             break;
+        case 'persona/eliminar':
+            if (isset($_GET['idpersona'])) (new PersonaController())->eliminar($_GET['idpersona']);
+            break;
+        case 'persona/delete':
         case 'persona/view':
             if (isset($_GET['idpersona'])) (new PersonaController())->registro($_GET['idpersona']);
             break;
