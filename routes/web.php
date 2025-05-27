@@ -1,196 +1,182 @@
-PHP
-
 <?php
-// En DireccionController.php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+session_start();
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php'; // Si necesitas listar personas en el formulario
+// Incluir los controladores necesarios
+require_once '../app/controllers/PersonaController.php';
+require_once '../app/controllers/SexoController.php';
+require_once '../app/controllers/DireccionController.php';
+require_once '../app/controllers/TelefonoController.php';
+require_once '../app/controllers/EstadocivilController.php';
 
-class DireccionController {
-    private $direccion;
-    private $persona; // Para obtener la lista de personas (si es necesario en la vista)
-    private $db;
-
-    public function __construct() {
-        $this->db = (new Database())->getConnection();
-        $this->direccion = new Direccion($this->db);
-        $this->persona = new Persona($this->db); // Inicializa el modelo Persona
-    }
-
-    // Mostrar todas las direcciones
-    public function index() {
-        $direcciones = $this->direccion->read();
-        require_once '../app/views/direccion/index.php';
-    }
-
-    // Mostrar el formulario de creación de dirección
-    public function createForm() {
-        $personas = $this->persona->read(); // Obtener la lista de personas para el select
-        require_once '../app/views/direccion/create.php';
-    }
-
-    // Procesar la creación de una nueva dirección
-    public function create() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (
-                isset($_POST['idpersona']) &&
-                isset($_POST['nombre'])
-            ) {
-                $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['nombre'];
-
-                if ($this->direccion->create()) {
-                    header('Location: index.php?msg=created');
-                    exit;
-                } else {
-                    $error = "Error al crear la dirección.";
-                    $personas = $this->persona->read();
-                    require_once '../app/views/direccion/create.php'; // Pasar error y lista de personas
-                    exit;
-                }
-            } else {
-                $error = "Faltan datos en el formulario.";
-                $personas = $this->persona->read();
-                require_once '../app/views/direccion/create.php'; // Pasar error y lista de personas
-                exit;
-            }
-        } else {
-            header('Location: index.php'); // Redirigir si no es POST
-            exit;
-        }
-    }
-
-    // Mostrar el formulario de edición de dirección
-    public function editForm($iddireccion) {
-        $this->direccion->iddireccion = $iddireccion;
-        $direccion = $this->direccion->readOne();
-        $personas = $this->persona->read(); // Obtener la lista de personas para el select
-
-        if (!$direccion) {
-            die("Error: No se encontró la dirección.");
-        }
-
-        require_once '../app/views/direccion/edit.php';
-    }
-
-    // Procesar la actualización de una dirección
-    public function update() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (
-                isset($_POST['iddireccion']) &&
-                isset($_POST['idpersona']) &&
-                isset($_POST['nombre'])
-            ) {
-                $this->direccion->iddireccion = $_POST['iddireccion'];
-                $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['nombre'];
-
-                if ($this->direccion->update()) {
-                    header('Location: index.php?msg=updated');
-                    exit;
-                } else {
-                    $error = "Error al actualizar la dirección.";
-                    $this->editForm($_POST['iddireccion']); // Volver al formulario con error
-                    exit;
-                }
-            } else {
-                $error = "Faltan datos en el formulario de actualización.";
-                $this->editForm($_POST['iddireccion']); // Volver al formulario con error
-                exit;
-            }
-        } else {
-            header('Location: index.php'); // Redirigir si no es POST
-            exit;
-        }
-    }
-
-    // Mostrar la confirmación de eliminación de dirección
-    public function deleteForm($iddireccion) {
-        $this->direccion->iddireccion = $iddireccion;
-        $direccion = $this->direccion->readOne();
-
-        if (!$direccion) {
-            die("Error: No se encontró la dirección.");
-        }
-
-        require_once '../app/views/direccion/delete.php';
-    }
-
-    // Procesar la eliminación de una dirección
-    public function delete() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['iddireccion'])) {
-                $this->direccion->iddireccion = $_POST['iddireccion'];
-                if ($this->direccion->delete()) {
-                    header('Location: index.php?msg=deleted');
-                    exit;
-                } else {
-                    header('Location: index.php?msg=error_delete');
-                    exit;
-                }
-            } else {
-                header('Location: index.php?msg=no_id_delete');
-                exit;
-            }
-        } else {
-            header('Location: index.php'); // Redirigir si no es POST
-            exit;
-        }
-    }
-}
-
-// Manejo de la acción en la URL
-if (isset($_GET['action'])) {
-    $controller = new DireccionController();
-    $action = $_GET['action'];
-
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-    } elseif (isset($_POST['iddireccion'])) {
-        $id = $_POST['iddireccion'];
-    } else {
-        $id = null;
-    }
-
-    switch ($action) {
-        case 'index':
+$requestUri = $_SERVER["REQUEST_URI"];
+$basePath = '/ibm5a/public/';
+// Remover el prefijo basePath
+$route = str_replace($basePath, '', $requestUri);
+$route = strtok($route, '?'); // Quitar parámetros GET
+ 
+// Mostrar el menú si no se ha solicitado ninguna acción específica
+if (empty($route) || $route === '/') {
+    echo "<h1>Menú de Tablas</h1>";
+    echo "<ul>";
+    echo "<li><a href='" . $basePath . "persona/index'>Personas</a></li>";
+    echo "<li><a href='" . $basePath . "sexo/index'>Sexos</a></li>";
+    echo "<li><a href='" . $basePath . "direccion/index'>Direcciones</a></li>";
+    echo "<li><a href='" . $basePath . "telefono/index'>Teléfonos</a></li>";
+    echo "<li><a href='" . $basePath . "estadocivil/index'>Estados Civiles</a></li>";
+    echo "</ul>";
+} else {
+    // Enrutar a los controladores según la ruta
+    switch ($route) {
+        case 'persona':
+        case 'persona/index':
+            $controller = new PersonaController();
             $controller->index();
             break;
-        case 'createForm':
+        case 'persona/create':
+            $controller = new PersonaController();
             $controller->createForm();
             break;
-        case 'create':
-            $controller->create();
-            break;
-        case 'editForm':
-            if ($id !== null) {
-                $controller->editForm($id);
+        case 'persona/edit':
+            if (isset($_GET['idpersona'])) {
+                $controller = new PersonaController();
+                $controller->edit($_GET['idpersona']);
             } else {
-                echo "Error: ID de dirección no especificado para editar.";
+                echo "Error: Falta el ID para editar.";
             }
             break;
-        case 'update':
-            $controller->update();
-            break;
-        case 'deleteForm':
-            if ($id !== null) {
-                $controller->deleteForm($id);
-            } else {
-                echo "Error: ID de dirección no especificado para eliminar.";
+        case 'persona/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new PersonaController();
+                $controller->update();
             }
             break;
-        case 'delete':
-            $controller->delete();
+        case 'persona/view':
+            if (isset($_GET['idpersona'])) {
+                $controller = new PersonaController();
+                $controller->registro($_GET['idpersona']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
             break;
+
+        case 'sexo':
+        case 'sexo/index':
+            $controller = new SexoController();
+            $controller->index();
+            break;
+        case 'sexo/edit':
+            if (isset($_GET['idsexo'])) {
+                $controller = new SexoController();
+                $controller->edit($_GET['idsexo']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'sexo/eliminar':
+            if (isset($_GET['idsexo'])) {
+                $controller = new SexoController();
+                $controller->eliminar($_GET['idsexo']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'sexo/delete':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new SexoController();
+                $controller->delete();
+            }
+            break;
+        case 'sexo/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new SexoController();
+                $controller->update();
+            }
+            break;
+        case 'direccion':
+        case 'direccion/index':
+            $controller = new DireccionController();
+            $controller->index();
+            break;
+        case 'direccion/create':
+            $controller = new DireccionController();
+            $controller->createForm();
+            break;
+        case 'direccion/edit':
+            if (isset($_GET['iddireccion'])) {
+                $controller = new DireccionController();
+                $controller->edit($_GET['iddireccion']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'direccion/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new DireccionController();
+                $controller->update();
+            }
+            break;
+
+        case 'telefono':
+        case 'telefono/index':
+            $controller = new TelefonoController();
+            $controller->index();
+            break;
+        case 'telefono/create':
+            $controller = new TelefonoController();
+            $controller->createForm();
+            break;
+        case 'telefono/edit':
+            if (isset($_GET['idtelefono'])) {
+                $controller = new TelefonoController();
+                $controller->edit($_GET['idtelefono']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'telefono/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new TelefonoController();
+                $controller->update();
+            }
+            break;
+
+        case 'estadocivil':
+        case 'estadocivil/index':
+            $controller = new EstadoCivilController();
+            $controller->index();
+            break;
+        case 'estadocivil/edit':
+            if (isset($_GET['idestadocivil'])) {
+                $controller = new EstadocivilController();
+                $controller->edit($_GET['idestadocivil']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'estadocivil/update':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new EstadocivilController();
+                $controller->update();
+            }
+            break;
+        case 'estadocivil/eliminar':
+            if (isset($_GET['idestadocivil'])) {
+                $controller = new EstadocivilController();
+                $controller->eliminar($_GET['idestadocivil']);
+            } else {
+                echo "Error: Falta el ID para editar.";
+            }
+            break;
+        case 'estadocivil/delete':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $controller = new EstadocivilController();
+                $controller->delete();
+            }
+            break;
+
         default:
-            echo "Acción no válida.";
+            echo "Error 404: Página no encontrada.";
             break;
     }
-} else {
-  // $controller = new DireccionController();
-   // $controller->index(); // Acción por defecto
 }
 ?>
