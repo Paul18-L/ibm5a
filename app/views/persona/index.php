@@ -9,11 +9,8 @@
 <body>
 
 <div class="container">
-    <h1>Listado de Personas</h1>
-
-    <a href="/ibm5a/app/views/persona/create.php">
-        <button>Agregar Persona</button>
-    </a>
+    <h1>Lista de Personas</h1>
+    <a href="/ibm5a/public/persona/create"><button>Agregar</button></a>
 
     <table>
         <thead>
@@ -31,17 +28,20 @@
             <?php if (!empty($personas) && is_array($personas)): ?>
                 <?php foreach ($personas as $persona): ?>
                     <tr>
-                        <td><?= htmlspecialchars($persona['idpersona']) ?></td>
-                        <td><?= htmlspecialchars($persona['nombres']) ?></td>
-                        <td><?= htmlspecialchars($persona['apellidos']) ?></td>
-                        <td><?= htmlspecialchars($persona['fechanacimiento']) ?></td>
-                        <td><?= htmlspecialchars($persona['nombre_sexo']) ?></td>
-                        <td><?= htmlspecialchars($persona['nombre_estadocivil']) ?></td>
+                        <td><?php echo htmlspecialchars($persona['idpersona']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['nombres']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['apellidos']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['fechanacimiento']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['elsexo']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['elestadocivil']); ?></td>
                         <td>
-                            <a href="/ibm5a/public/persona/editForm?id=<?= htmlspecialchars($persona['idpersona']) ?>">
+                            <a href="/ibm5a/public/persona/view?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
+                                <button>View</button>
+                            </a>
+                            <a href="/ibm5a/public/persona/edit?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
                                 <button>Editar</button>
                             </a>
-                            <a href="/ibm5a/public/persona/deleteForm?id=<?= htmlspecialchars($persona['idpersona']) ?>"
+                            <a href="/ibm5a/public/persona/deleteForm?id=<?php echo htmlspecialchars($persona['idpersona']); ?>"
                                onclick="return confirm('¿Estás seguro de eliminar esta persona?');">
                                 <button>Eliminar</button>
                             </a>
