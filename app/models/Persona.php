@@ -1,10 +1,8 @@
 <?php
-// Modelo Persona
 class Persona {
     private $conn;
     private $table_name = "persona";
 
-    // Propiedades de la tabla persona
     public $idpersona;
     public $nombres;
     public $apellidos;
@@ -12,12 +10,14 @@ class Persona {
     public $idsexo;
     public $idestadocivil;
 
-    // Constructor con conexión a base de datos
     public function __construct($db) {
-        $this->conn = $db;
+        if ($db instanceof PDO) {
+            $this->conn = $db;
+        } else {
+            throw new InvalidArgumentException("Conexión no válida.");
+        }
     }
 
-    // Método privado para enlazar parámetros comunes
     private function bindCommonParams($stmt) {
         $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
         $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
@@ -26,10 +26,13 @@ class Persona {
         $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
     }
 
-    // Crear una nueva persona
     public function create() {
         try {
-            $query = "INSERT INTO " . $this->table_name . " 
+            if (empty($this->nombres) || empty($this->apellidos) || empty($this->fechanacimiento)) {
+                return false;
+            }
+
+            $query = "INSERT INTO {$this->table_name} 
                       (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
                       VALUES (:nombres, :apellidos, :fechanacimiento, :idsexo, :idestadocivil)";
             
@@ -43,10 +46,9 @@ class Persona {
         }
     }
 
-    // Leer todas las personas
     public function read() {
         try {
-            $query = "SELECT * FROM " . $this->table_name;
+            $query = "SELECT * FROM {$this->table_name}";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,10 +59,9 @@ class Persona {
         }
     }
 
-    // Leer una sola persona por su ID
     public function readOne() {
         try {
-            $query = "SELECT * FROM " . $this->table_name . " 
+            $query = "SELECT * FROM {$this->table_name} 
                       WHERE idpersona = :idpersona LIMIT 1";
             
             $stmt = $this->conn->prepare($query);
@@ -76,10 +77,13 @@ class Persona {
         }
     }
 
-    // Actualizar datos de una persona
     public function update() {
         try {
-            $query = "UPDATE " . $this->table_name . " SET
+            if (empty($this->idpersona)) {
+                return false;
+            }
+
+            $query = "UPDATE {$this->table_name} SET
                         nombres = :nombres,
                         apellidos = :apellidos,
                         fechanacimiento = :fechanacimiento,
@@ -90,7 +94,6 @@ class Persona {
             $stmt = $this->conn->prepare($query);
             $this->bindCommonParams($stmt);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
-
             return $stmt->execute();
 
         } catch (PDOException $e) {
@@ -99,19 +102,17 @@ class Persona {
         }
     }
 
-    // Eliminar una persona
     public function delete() {
         try {
             if (empty($this->idpersona)) {
                 return false;
             }
 
-            $query = "DELETE FROM " . $this->table_name . " 
+            $query = "DELETE FROM {$this->table_name} 
                       WHERE idpersona = :idpersona";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
-
             return $stmt->execute();
 
         } catch (PDOException $e) {
