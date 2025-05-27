@@ -1,147 +1,153 @@
-<!DOCTYPE html>
 <?php
+// En DireccionController.php
+// Programador: Carlos Andrés Martínez Casanova
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// En DireccionController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
 
 class DireccionController {
     private $direccion;
     private $db;
-    private $persona;
 
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->direccion = new Direccion($this->db);
-        $this->persona = new Persona($this->db);
     }
 
     public function index() {
-        $direccions = $this->direccion->read1();
+        $direcciones = $this->direccion->read();
         require_once '../app/views/direccion/index.php';
     }
 
     public function createForm() {
-        $personas = $this->persona->read();
         require_once '../app/views/direccion/create.php';
     }
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo "Formulario recibido";
-            if (isset($_POST['nombre'])) {
-                $this->direccion->idpersona = $_POST['idpersona'] ?? null;
+            if (!empty($_POST['nombre'])) {
                 $this->direccion->nombre = $_POST['nombre'];
+
                 if ($this->direccion->create()) {
-                    echo "Dirección creada exitosamente";
+                    header('Location: index.php?msg=created');
                 } else {
-                    echo "Error al crear la dirección";
+                    $error = "Error al crear la dirección.";
+                    require_once '../app/views/direccion/create.php';
                 }
             } else {
-                echo "Faltan datos";
+                $error = "Faltan datos en el formulario.";
+                require_once '../app/views/direccion/create.php';
             }
-        } else {
-            echo "Método incorrecto";
+            exit;
         }
-        die();
+
+        header('Location: index.php');
+        exit;
     }
 
-    public function edit($iddireccion) {
+    public function editForm($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
-        $personas = $this->persona->read();
 
         if (!$direccion) {
-            die("Error: No se encontró el registro.");
+            die("Error: No se encontró la dirección.");
         }
 
         require_once '../app/views/direccion/edit.php';
     }
 
-    public function eliminar($iddireccion) {
+    public function update() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!empty($_POST['iddireccion']) && !empty($_POST['nombre'])) {
+                $this->direccion->iddireccion = $_POST['iddireccion'];
+                $this->direccion->nombre = $_POST['nombre'];
+
+                if ($this->direccion->update()) {
+                    header('Location: index.php?msg=updated');
+                } else {
+                    $error = "Error al actualizar la dirección.";
+                    $this->editForm($_POST['iddireccion']);
+                }
+            } else {
+                $error = "Faltan datos en el formulario de actualización.";
+                $this->editForm($_POST['iddireccion']);
+            }
+            exit;
+        }
+
+        header('Location: index.php');
+        exit;
+    }
+
+    public function deleteForm($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
 
         if (!$direccion) {
-            die("Error: No se encontró el registro.");
+            die("Error: No se encontró la dirección.");
         }
 
         require_once '../app/views/direccion/delete.php';
     }
 
-    public function update() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo "Formulario recibido";
-            if (isset($_POST['nombre'])) {
-                $this->direccion->idpersona = $_POST['idpersona'] ?? null;
-                $this->direccion->nombre = $_POST['nombre'];
-                $this->direccion->iddireccion = $_POST['iddireccion'];
-                if ($this->direccion->update()) {
-                    echo "Dirección actualizada exitosamente";
-                } else {
-                    echo "Error al actualizar la dirección";
-                }
-            } else {
-                echo "Faltan datos";
-            }
-        } else {
-            echo "Método incorrecto";
-        }
-        die();
-    }
-
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['id'])) {
-                $this->direccion->id = $_POST['id'];
+            if (!empty($_POST['iddireccion'])) {
+                $this->direccion->iddireccion = $_POST['iddireccion'];
                 if ($this->direccion->delete()) {
-                    echo "Dirección borrada exitosamente";
+                    header('Location: index.php?msg=deleted');
                 } else {
-                    echo "Error al borrar la dirección";
+                    header('Location: index.php?msg=error_delete');
                 }
             } else {
-                echo "Faltan datos";
+                header('Location: index.php?msg=no_id_delete');
             }
-        } else {
-            echo "Método incorrecto";
-        }
-        die();
-    }
-
-    public function api() {
-        while (ob_get_level()) {
-            ob_end_clean();
+            exit;
         }
 
-        $direcciones = $this->direccion->getAll();
-        header('Content-Type: application/json');
-        echo json_encode($direcciones);
+        header('Location: index.php');
         exit;
     }
 }
 
-// Manejo de la acción en la URL
+// Enrutamiento por acción
 if (isset($_GET['action'])) {
     $controller = new DireccionController();
+    $action = $_GET['action'];
+    $id = $_GET['id'] ?? $_POST['iddireccion'] ?? null;
 
-    switch ($_GET['action']) {
+    switch ($action) {
+        case 'index':
+            $controller->index();
+            break;
         case 'createForm':
             $controller->createForm();
             break;
         case 'create':
             $controller->create();
             break;
+        case 'editForm':
+            if ($id !== null) {
+                $controller->editForm($id);
+            } else {
+                echo "Error: ID no especificado para editar.";
+            }
+            break;
         case 'update':
             $controller->update();
             break;
+        case 'deleteForm':
+            if ($id !== null) {
+                $controller->deleteForm($id);
+            } else {
+                echo "Error: ID no especificado para eliminar.";
+            }
+            break;
         case 'delete':
             $controller->delete();
-            break;
-        case 'api':
-            $controller->api();
             break;
         default:
             echo "Acción no válida.";
