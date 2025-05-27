@@ -27,6 +27,7 @@ class PersonaController {
         $personas = $this->persona->read();
         $sexos = $this->sexo->read();
         $estadosciviles = $this->estadocivil->read();
+
         require_once '../app/views/persona/index.php';
     }
 
@@ -37,17 +38,32 @@ class PersonaController {
     }
 
     public function create() {
-        $this->persona->nombres = $_POST['nombres'];
-        $this->persona->apellidos = $_POST['apellidos'];
-        $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-        $this->persona->idsexo = $_POST['idsexo'];
-        $this->persona->idestadocivil = $_POST['idestadocivil'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (
+                isset($_POST['nombres']) &&
+                isset($_POST['apellidos']) &&
+                isset($_POST['fechanacimiento']) &&
+                isset($_POST['idsexo']) &&
+                isset($_POST['idestadocivil'])
+            ) {
+                $this->persona->nombres = $_POST['nombres'];
+                $this->persona->apellidos = $_POST['apellidos'];
+                $this->persona->fechanacimiento = $_POST['fechanacimiento'];
+                $this->persona->idsexo = $_POST['idsexo'];
+                $this->persona->idestadocivil = $_POST['idestadocivil'];
 
-        if ($this->persona->create()) {
-            echo "personas creada con exito";
+                if ($this->persona->create()) {
+                    echo "Persona creada con éxito.";
+                } else {
+                    $error = "Error al crear la persona.";
+                    require_once '../app/views/persona/create.php';
+                }
+            } else {
+                $error = "Faltan datos en el formulario.";
+                require_once '../app/views/persona/create.php';
+            }
         } else {
-            $error = "Error al crear la persona.";
-            require_once '../app/views/persona/create.php';
+            header('Location: index.php');
             exit;
         }
     }
@@ -69,6 +85,7 @@ class PersonaController {
         $this->persona->idpersona = $idpersona;
         $sexos = $this->sexo->read();
         $estadosciviles = $this->estadocivil->read();
+
         $telefonos = $this->telefono->readByPersona($idpersona);
         $direcciones = $this->direccion->readByPersona($idpersona);
         $persona = $this->persona->readOne();
@@ -102,12 +119,12 @@ class PersonaController {
                     exit;
                 } else {
                     $error = "Error al actualizar la persona.";
-                    $this->editForm($_POST['idpersona']);
+                    $this->edit($_POST['idpersona']);
                     exit;
                 }
             } else {
                 $error = "Faltan datos en el formulario de actualización.";
-                $this->editForm($_POST['idpersona']);
+                $this->edit($_POST['idpersona']);
                 exit;
             }
         } else {
@@ -160,6 +177,7 @@ class PersonaController {
     }
 }
 
+// Manejo de la acción en la URL
 if (isset($_GET['action'])) {
     $controller = new PersonaController();
     $action = $_GET['action'];
@@ -172,7 +190,7 @@ if (isset($_GET['action'])) {
         $id = null;
     }
 
-    switch ($_GET['action']) {
+    switch ($action) {
         case 'index':
             $controller->index();
             break;
@@ -184,7 +202,7 @@ if (isset($_GET['action'])) {
             break;
         case 'editForm':
             if ($id !== null) {
-                $controller->editForm($id);
+                $controller->edit($id);
             } else {
                 echo "Error: ID de persona no especificado para editar.";
             }
