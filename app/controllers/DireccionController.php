@@ -7,17 +7,14 @@ error_reporting(E_ALL);
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
 
 class DireccionController {
     private $direccion;
-    private $persona;
     private $db;
 
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->direccion = new Direccion($this->db);
-        $this->persona = new Persona($this->db);
     }
 
     public function index() {
@@ -26,17 +23,14 @@ class DireccionController {
     }
 
     public function createForm() {
-        $personas = $this->persona->read();
         require_once '../app/views/direccion/create.php';
     }
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $idpersona = $_POST['idpersona'] ?? null;
             $nombre = $_POST['nombre'] ?? null;
 
-            if (!empty($idpersona) && !empty($nombre)) {
-                $this->direccion->idpersona = htmlspecialchars($idpersona);
+            if (!empty($nombre)) {
                 $this->direccion->nombre = htmlspecialchars($nombre);
 
                 if ($this->direccion->create()) {
@@ -46,10 +40,9 @@ class DireccionController {
 
                 $error = "Error al crear la dirección.";
             } else {
-                $error = "Faltan datos en el formulario.";
+                $error = "Falta el nombre de la dirección.";
             }
 
-            $personas = $this->persona->read();
             require_once '../app/views/direccion/create.php';
             exit;
         }
@@ -61,7 +54,6 @@ class DireccionController {
     public function editForm($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
-        $personas = $this->persona->read();
 
         if (!$direccion) {
             die("Error: No se encontró la dirección.");
@@ -73,12 +65,10 @@ class DireccionController {
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $iddireccion = $_POST['iddireccion'] ?? null;
-            $idpersona = $_POST['idpersona'] ?? null;
             $nombre = $_POST['nombre'] ?? null;
 
-            if (!empty($iddireccion) && !empty($idpersona) && !empty($nombre)) {
+            if (!empty($iddireccion) && !empty($nombre)) {
                 $this->direccion->iddireccion = htmlspecialchars($iddireccion);
-                $this->direccion->idpersona = htmlspecialchars($idpersona);
                 $this->direccion->nombre = htmlspecialchars($nombre);
 
                 if ($this->direccion->update()) {
@@ -88,7 +78,7 @@ class DireccionController {
 
                 $error = "Error al actualizar la dirección.";
             } else {
-                $error = "Faltan datos en el formulario de actualización.";
+                $error = "Faltan datos en el formulario.";
             }
 
             $this->editForm($iddireccion);
@@ -175,7 +165,4 @@ if (isset($_GET['action'])) {
             echo "Acción no válida.";
             break;
     }
-} else {
-    // Opcionalmente, puedes redirigir a index
-    // (new DireccionController())->index();
 }
