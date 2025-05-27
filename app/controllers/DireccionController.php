@@ -38,7 +38,7 @@ class DireccionController {
                     require_once '../app/views/direccion/create.php';
                 }
             } else {
-                $error = "Faltan datos en el formulario.";
+                $error = "El campo 'nombre' es obligatorio.";
                 require_once '../app/views/direccion/create.php';
             }
             exit;
@@ -154,4 +154,3 @@ if (isset($_GET['action'])) {
             break;
     }
 }
-?>
