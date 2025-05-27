@@ -62,7 +62,7 @@ class Persona {
     // Leer una sola persona por ID
     public function readOne() {
         try {
-            $query = "SELECT * FROM " . $this->table_name . " WHERE idpersona = :idpersona LIMIT 1";
+            $query = "SELECT * FROM  persona" . $this->table_name . " WHERE idpersona = :idpersona LIMIT 1";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
             $stmt->execute();
@@ -119,7 +119,7 @@ class Persona {
             }
             error_log("Intentando eliminar la persona con ID: " . $this->idpersona);
 
-            $query = "DELETE FROM " . $this->table_name . " WHERE idpersona = :idpersona";
+            $query = "DELETE FROM persona  " . $this->table_name . " WHERE idpersona = :idpersona";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
 
