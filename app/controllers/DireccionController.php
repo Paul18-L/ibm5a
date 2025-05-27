@@ -2,7 +2,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-// programador carlos andres martinez casanova 
+
 // En DireccionController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
@@ -10,6 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
 
 class DireccionController {
     private $direccion;
+    private $persona;
     private $db;
 
     public function __construct() {
@@ -18,7 +19,6 @@ class DireccionController {
         $this->persona = new Persona($this->db);
     }
 
-    // Mostrar todos los teléfonos
     public function index() {
         $direccions = $this->direccion->read1();
         require_once '../app/views/direccion/index.php';
@@ -31,14 +31,14 @@ class DireccionController {
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo "Formulario recibido";
-            if (isset($_POST['nombre'])) {
+            if (!empty($_POST['nombre']) && !empty($_POST['idpersona'])) {
                 $this->direccion->idpersona = $_POST['idpersona'];
                 $this->direccion->nombre = $_POST['nombre'];
                 if ($this->direccion->create()) {
-                    echo "Teléfono creado exitosamente";
+                    header('Location: index.php?msg=created');
+                    exit;
                 } else {
-                    echo "Error al crear el teléfono";
+                    echo "Error al crear la dirección";
                 }
             } else {
                 echo "Faltan datos";
@@ -46,7 +46,6 @@ class DireccionController {
         } else {
             echo "Método incorrecto";
         }
-        die();
     }
 
     public function edit($iddireccion) {
@@ -74,15 +73,15 @@ class DireccionController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo "Formulario recibido";
-            if (isset($_POST['nombre'])) {
+            if (!empty($_POST['nombre']) && !empty($_POST['idpersona']) && !empty($_POST['iddireccion'])) {
                 $this->direccion->idpersona = $_POST['idpersona'];
                 $this->direccion->nombre = $_POST['nombre'];
                 $this->direccion->iddireccion = $_POST['iddireccion'];
                 if ($this->direccion->update()) {
-                    echo "Teléfono actualizado exitosamente";
+                    header('Location: index.php?msg=updated');
+                    exit;
                 } else {
-                    echo "Error al actualizar el teléfono";
+                    echo "Error al actualizar la dirección";
                 }
             } else {
                 echo "Faltan datos";
@@ -90,16 +89,13 @@ class DireccionController {
         } else {
             echo "Método incorrecto";
         }
-        die();
     }
 
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['id'])) {
-                $this->direccion->id = $_POST['id'];
+            if (!empty($_POST['iddireccion'])) {
+                $this->direccion->iddireccion = $_POST['iddireccion'];
                 if ($this->direccion->delete()) {
-                    echo "Teléfono borrado exitosamente";
-                    die();
                     header('Location: index.php?msg=deleted');
                     exit;
                 } else {
@@ -112,7 +108,6 @@ class DireccionController {
         } else {
             echo "Método incorrecto";
         }
-        die();
     }
 
     public function api() {
@@ -131,7 +126,6 @@ class DireccionController {
 if (isset($_GET['action'])) {
     $controller = new DireccionController();
 
-    echo "hola";
     switch ($_GET['action']) {
         case 'createForm':
             $controller->createForm();
