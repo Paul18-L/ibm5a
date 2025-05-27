@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/apple6b/app/models/Persona.php';
 class DireccionController {
     private $direccion;
     private $db;
