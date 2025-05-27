@@ -82,42 +82,46 @@
 <div class="form-container">
     <h2>Editar Persona</h2>
     <form action="../../app/controllers/PersonaController.php?action=update" method="POST">
-        <input type="hidden" name="idpersona" value="<?= $persona['idpersona'] ?>">
+        <input type="hidden" name="idpersona" value="<?= isset($persona['idpersona']) ? htmlspecialchars($persona['idpersona']) : '' ?>">
 
         <div class="form-group">
             <label for="nombres">Nombres:</label>
-            <input type="text" name="nombres" id="nombres" value="<?= htmlspecialchars($persona['nombres']) ?>" required>
+            <input type="text" name="nombres" id="nombres" value="<?= isset($persona['nombres']) ? htmlspecialchars($persona['nombres']) : '' ?>" required>
         </div>
 
         <div class="form-group">
             <label for="apellidos">Apellidos:</label>
-            <input type="text" name="apellidos" id="apellidos" value="<?= htmlspecialchars($persona['apellidos']) ?>" required>
+            <input type="text" name="apellidos" id="apellidos" value="<?= isset($persona['apellidos']) ? htmlspecialchars($persona['apellidos']) : '' ?>" required>
         </div>
 
         <div class="form-group">
             <label for="fechanacimiento">Fecha de Nacimiento:</label>
-            <input type="date" name="fechanacimiento" id="fechanacimiento" value="<?= $persona['fechanacimiento'] ?>" required>
+            <input type="date" name="fechanacimiento" id="fechanacimiento" value="<?= isset($persona['fechanacimiento']) ? htmlspecialchars($persona['fechanacimiento']) : '' ?>" required>
         </div>
 
         <div class="form-group">
             <label for="idsexo">Sexo:</label>
             <select name="idsexo" id="idsexo" required>
-                <?php foreach ($sexos as $sexo): ?>
-                    <option value="<?= $sexo['idsexo'] ?>" <?= $sexo['idsexo'] == $persona['idsexo'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($sexo['nombre']) ?>
-                    </option>
-                <?php endforeach; ?>
+                <?php if (isset($sexos) && is_array($sexos)): ?>
+                    <?php foreach ($sexos as $sexo): ?>
+                        <option value="<?= htmlspecialchars($sexo['idsexo']) ?>" <?= isset($persona['idsexo']) && $sexo['idsexo'] == $persona['idsexo'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($sexo['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </select>
         </div>
 
         <div class="form-group">
             <label for="idestadocivil">Estado Civil:</label>
             <select name="idestadocivil" id="idestadocivil" required>
-                <?php foreach ($estadosciviles as $estadocivil): ?>
-                    <option value="<?= $estadocivil['idestadocivil'] ?>" <?= $estadocivil['idestadocivil'] == $persona['idestadocivil'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($estadocivil['nombre']) ?>
-                    </option>
-                <?php endforeach; ?>
+                <?php if (isset($estadosciviles) && is_array($estadosciviles)): ?>
+                    <?php foreach ($estadosciviles as $estadocivil): ?>
+                        <option value="<?= htmlspecialchars($estadocivil['idestadocivil']) ?>" <?= isset($persona['idestadocivil']) && $estadocivil['idestadocivil'] == $persona['idestadocivil'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($estadocivil['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </select>
         </div>
 
@@ -129,7 +133,7 @@
     <?php if (!empty($telefonos)): ?>
         <?php foreach ($telefonos as $telefono): ?>
             <div class="info-display">
-                <strong>ID:</strong> <?= $telefono['idtelefono'] ?><br>
+                <strong>ID:</strong> <?= htmlspecialchars($telefono['idtelefono']) ?><br>
                 <strong>Número:</strong> <?= htmlspecialchars($telefono['numero']) ?>
             </div>
         <?php endforeach; ?>
@@ -142,7 +146,7 @@
     <?php if (!empty($direcciones)): ?>
         <?php foreach ($direcciones as $direccion): ?>
             <div class="info-display">
-                <strong>ID:</strong> <?= $direccion['iddireccion'] ?><br>
+                <strong>ID:</strong> <?= htmlspecialchars($direccion['iddireccion']) ?><br>
                 <strong>Dirección:</strong> <?= htmlspecialchars($direccion['nombre']) ?>
             </div>
         <?php endforeach; ?>
