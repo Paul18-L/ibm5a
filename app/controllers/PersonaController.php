@@ -21,18 +21,17 @@ class PersonaController {
     }
 
     public function createForm() {
-        $error = null;
         require_once '../app/views/persona/create.php';
     }
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (
-                !empty($_POST['nombres']) &&
-                !empty($_POST['apellidos']) &&
-                !empty($_POST['fechanacimiento']) &&
-                !empty($_POST['idsexo']) &&
-                !empty($_POST['idestadocivil'])
+                isset($_POST['nombres']) &&
+                isset($_POST['apellidos']) &&
+                isset($_POST['fechanacimiento']) &&
+                isset($_POST['idsexo']) &&
+                isset($_POST['idestadocivil'])
             ) {
                 $this->persona->nombres = $_POST['nombres'];
                 $this->persona->apellidos = $_POST['apellidos'];
@@ -41,7 +40,7 @@ class PersonaController {
                 $this->persona->idestadocivil = $_POST['idestadocivil'];
 
                 if ($this->persona->create()) {
-                    header('Location: index.php?action=index&msg=created');
+                    header('Location: index.php?msg=created');
                     exit;
                 } else {
                     $error = "Error al crear la persona.";
@@ -54,7 +53,7 @@ class PersonaController {
                 exit;
             }
         } else {
-            header('Location: index.php?action=index');
+            header('Location: index.php');
             exit;
         }
     }
@@ -67,19 +66,18 @@ class PersonaController {
             die("Error: No se encontró la persona.");
         }
 
-        $error = null;
         require_once '../app/views/persona/edit.php';
     }
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (
-                !empty($_POST['idpersona']) &&
-                !empty($_POST['nombres']) &&
-                !empty($_POST['apellidos']) &&
-                !empty($_POST['fechanacimiento']) &&
-                !empty($_POST['idsexo']) &&
-                !empty($_POST['idestadocivil'])
+                isset($_POST['idpersona']) &&
+                isset($_POST['nombres']) &&
+                isset($_POST['apellidos']) &&
+                isset($_POST['fechanacimiento']) &&
+                isset($_POST['idsexo']) &&
+                isset($_POST['idestadocivil'])
             ) {
                 $this->persona->idpersona = $_POST['idpersona'];
                 $this->persona->nombres = $_POST['nombres'];
@@ -89,24 +87,20 @@ class PersonaController {
                 $this->persona->idestadocivil = $_POST['idestadocivil'];
 
                 if ($this->persona->update()) {
-                    header('Location: index.php?action=index&msg=updated');
+                    header('Location: index.php?msg=updated');
                     exit;
                 } else {
                     $error = "Error al actualizar la persona.";
-                    $this->persona->idpersona = $_POST['idpersona'];
-                    $persona = $this->persona->readOne();
-                    require_once '../app/views/persona/edit.php';
+                    $this->editForm($_POST['idpersona']);
                     exit;
                 }
             } else {
                 $error = "Faltan algunos datos en el formulario de actualización.";
-                $this->persona->idpersona = $_POST['idpersona'];
-                $persona = $this->persona->readOne();
-                require_once '../app/views/persona/edit.php';
+                $this->editForm($_POST['idpersona']);
                 exit;
             }
         } else {
-            header('Location: index.php?action=index');
+            header('Location: index.php');
             exit;
         }
     }
@@ -119,27 +113,26 @@ class PersonaController {
             die("Error: No se encontró la persona.");
         }
 
-        $error = null;
         require_once '../app/views/persona/delete.php';
     }
 
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($_POST['idpersona'])) {
+            if (isset($_POST['idpersona'])) {
                 $this->persona->idpersona = $_POST['idpersona'];
                 if ($this->persona->delete()) {
-                    header('Location: index.php?action=index&msg=deleted');
+                    header('Location: index.php?msg=deleted');
                     exit;
                 } else {
-                    header('Location: index.php?action=index&msg=error_delete');
+                    header('Location: index.php?msg=error_delete');
                     exit;
                 }
             } else {
-                header('Location: index.php?action=index&msg=no_id_delete');
+                header('Location: index.php?msg=no_id_delete');
                 exit;
             }
         } else {
-            header('Location: index.php?action=index');
+            header('Location: index.php');
             exit;
         }
     }
@@ -149,7 +142,6 @@ if (isset($_GET['action'])) {
     $controller = new PersonaController();
     $action = $_GET['action'];
 
-    // Obtener ID persona desde GET o POST si existe
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
     } elseif (isset($_POST['idpersona'])) {
@@ -192,9 +184,5 @@ if (isset($_GET['action'])) {
             echo "Acción no válida.";
             break;
     }
-} else {
-    // Si no hay acción, redirigir al index
-    header('Location: index.php?action=index');
-    exit;
 }
 ?>
