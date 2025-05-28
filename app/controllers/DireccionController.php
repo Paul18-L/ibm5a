@@ -1,9 +1,13 @@
+
+
+<!DOCTYPE html>
 <?php
-// En DireccionController.php
-// Programador: Carlos Andrés Martínez Casanova
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+// en dirrecion controler
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
@@ -15,6 +19,7 @@ class DireccionController {
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->direccion = new Direccion($this->db);
+          $this->persona = new Persona($this->db);
     }
 
     public function index() {
