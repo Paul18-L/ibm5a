@@ -65,6 +65,14 @@
     <h2>Agregar Dirección</h2>
     <form action="../../app/controllers/DireccionController.php?action=create" method="POST">
         <label for="idpersona">ID de Persona:</label>
+        <select name = "idpersona"> id ="idpersona" required>
+            <option value=""> seleccione una persona</option>
+            <?php foreach ($personas as $persona): ?>
+                <option value"<?= $persona ['idpersona'] ?>
+                <?= $persona['apellidos']. ' ' , $persona[$'nombres]
+                </option>
+                <?php endforeach; ?>
+                </select>
         <input type="number" name="idpersona" id="idpersona" required placeholder="Ingrese el ID de la persona">
 
         <label for="direccion">Dirección:</label>
