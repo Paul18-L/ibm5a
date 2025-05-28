@@ -80,7 +80,7 @@ class DireccionController {
             if (
                 isset($_POST['iddireccion']) &&
                 isset($_POST['idpersona']) &&
-                isset($_POST['nombre'])
+                isset($_POST['direccion'])
             ) {
                 $this->direccion->iddireccion = $_POST['iddireccion'];
                 $this->direccion->idpersona = $_POST['idpersona'];
