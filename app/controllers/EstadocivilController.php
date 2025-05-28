@@ -1,9 +1,8 @@
 <?php
-// Mostrar errores
+// MEJORAS EN VISUAL CODE
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-// Requiere archivos necesarios
+// En estadocivilController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Estadocivil.php';
 
@@ -16,6 +15,7 @@ class estadocivilController {
         $this->estadocivil = new estadocivil($this->db);
     }
 
+    // Mostrar todos los estados civiles
     public function index() {
         $estadosciviles = $this->estadocivil->read();
         require_once '../app/views/estadocivil/index.php';
@@ -23,26 +23,31 @@ class estadocivilController {
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($_POST['nombre'])) {
-                $this->estadocivil->nombre = trim($_POST['nombre']);
+            echo "Formulario recibido";  // Verificar si llega el formulario
+            if (isset($_POST['nombre'])) {
+                $this->estadocivil->nombre = $_POST['nombre'];
                 if ($this->estadocivil->create()) {
-                    header('Location: estadocivilController.php?action=index&msg=created');
+                    echo "Estado civil creado exitosamente";
+                    // Redirigir o mostrar un mensaje de éxito
+                    header('Location: index.php?msg=created');
                     exit;
                 } else {
-                    echo "❌ Error al crear el estado civil.";
+                    echo "Error al crear el estado civil";
                 }
             } else {
-                echo "⚠️ El campo 'nombre' es obligatorio.";
+                echo "Faltan datos";
             }
         } else {
-            require_once '../app/views/estadocivil/create.php';
+            require_once '../app/views/estadocivil/create.php'; // Mostrar el formulario de creación
         }
+        die();  // Detener la ejecución para ver los mensajes
     }
 
     public function edit($idestadocivil) {
+        // Pasar el ID al modelo antes de llamar a readOne()
         $this->estadocivil->idestadocivil = $idestadocivil;
         $estadocivil = $this->estadocivil->readOne();
-
+         
         if (!$estadocivil) {
             die("Error: No se encontró el registro.");
         }
@@ -51,6 +56,7 @@ class estadocivilController {
     }
 
     public function eliminar($idestadocivil) {
+        // Pasar el ID al modelo antes de llamar a readOne()
         $this->estadocivil->idestadocivil = $idestadocivil;
         $estadocivil = $this->estadocivil->readOne();
 
@@ -63,45 +69,50 @@ class estadocivilController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($_POST['nombre']) && !empty($_POST['idestadocivil'])) {
-                $this->estadocivil->nombre = trim($_POST['nombre']);
-                $this->estadocivil->idestadocivil = intval($_POST['idestadocivil']);
-
+            echo "Formulario recibido";  // Verificar si llega el formulario
+            if (isset($_POST['nombre'])) {
+                $this->estadocivil->nombre = $_POST['nombre'];
+                $this->estadocivil->idestadocivil = $_POST['idestadocivil'];
                 if ($this->estadocivil->update()) {
-                    header('Location: estadocivilController.php?action=index&msg=updated');
+                    echo "Estado Civil actualizado exitosamente";
+                    header('Location: index?msg=updated');
                     exit;
                 } else {
-                    echo "❌ Error al actualizar.";
+                    echo "Error al actualizar el estado civil";
                 }
             } else {
-                echo "⚠️ Faltan datos.";
+                echo "Faltan datos";
             }
         } else {
-            echo "❌ Método no permitido.";
+            echo "Método incorrecto";  // Verificar que el formulario no se envíe con GET
         }
+        die();  // Detener la ejecución para ver los mensajes
     }
 
+    // Eliminar un estado civil
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($_POST['idestadocivil'])) {
-                $this->estadocivil->idestadocivil = intval($_POST['idestadocivil']);
-
+            if (isset($_POST['id'])) {
+                $this->estadocivil->idestadocivil = $_POST['id'];
                 if ($this->estadocivil->delete()) {
-                    header('Location: estadocivilController.php?action=index&msg=deleted');
+                    echo "Estado Civil borrado exitosamente";
+                    header('Location: index.php?msg=deleted');
                     exit;
                 } else {
-                    echo "❌ Error al eliminar.";
+                    header('Location: index.php?msg=error');
+                    exit;
                 }
             } else {
-                echo "⚠️ Falta el ID.";
+                echo "Faltan datos";
             }
         } else {
-            echo "❌ Método no permitido.";
+            echo "Método incorrecto";  // Verificar que el formulario no se envíe con GET
         }
+        die();  // Detener la ejecución para ver los mensajes
     }
 }
 
-// Enrutador simple
+/// Manejo de la acción en la URL
 if (isset($_GET['action'])) {
     $controller = new estadocivilController();
 
@@ -112,11 +123,12 @@ if (isset($_GET['action'])) {
         case 'create':
             $controller->create();
             break;
+      
         case 'eliminar':
             if (isset($_GET['idestadocivil'])) {
                 $controller->eliminar($_GET['idestadocivil']);
             } else {
-                echo "❌ Falta el ID para eliminar.";
+                echo "Error: Falta el ID para eliminar.";
             }
             break;
         case 'update':
@@ -126,11 +138,11 @@ if (isset($_GET['action'])) {
             $controller->delete();
             break;
         default:
-            echo "❌ Acción no válida.";
+            echo "Acción no válida.";
             break;
     }
 } else {
-    header("Location: estadocivilController.php?action=index");
-    exit;
+   // $controller = new estadocivilController();
+   // $controller->index(); // Mostrar la lista por defecto
 }
 ?>
