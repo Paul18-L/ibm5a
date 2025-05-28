@@ -70,6 +70,7 @@ class DireccionController {
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($_POST['iddireccion']) && !empty($_POST['nombre'])) {
+                $this->direccion->idpersona = $_POST['idpersona'];
                 $this->direccion->iddireccion = $_POST['iddireccion'];
                 $this->direccion->nombre = $_POST['nombre'];
 
@@ -162,3 +163,4 @@ if (isset($_GET['action'])) {
             break;
     }
 }
+?>
