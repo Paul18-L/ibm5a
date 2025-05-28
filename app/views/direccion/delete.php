@@ -8,8 +8,8 @@
 <body>
 
 <h1>Editar dirrecion</h1>
-<form action="/ibm5a/public/sexo/delete" method="POST">
-    <input type="hidden" name="idsexo" value="<?php echo htmlspecialchars($sexo['iddirrecion']); ?>">
+<form action="/ibm5a/public/dirreción/delete" method="POST">
+    <input type="hidden" name="iddirrecion" value="<?php echo htmlspecialchars($sexo['iddirrecion']); ?>">
     
     <label for="nombre">Nombre:</label>
     <input type="text" name="nombre" id="nombre" value="<?php echo htmlspecialchars($sexo['nombre']); ?>" required>
