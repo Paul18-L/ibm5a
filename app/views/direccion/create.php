@@ -68,7 +68,7 @@
         <select name = "idpersona"> id ="idpersona" required>
             <option value=""> seleccione una persona</option>
             <?php foreach ($personas as $persona): ?>
-                <option value"<?= $persona ['idpersona'] ?>
+                <option value= "<?= $persona ['idpersona'] ?>">
                 <?= $persona['apellidos']. ' ' , $persona[$'nombres]
                 </option>
                 <?php endforeach; ?>
