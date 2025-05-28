@@ -12,7 +12,7 @@ $basePath = '/ibm5a/public/';
 $route = str_replace($basePath, '', $requestUri);
 $route = strtok($route, '?');
 
-// Menú principal simple
+// Menú principal
 if (empty($route) || $route === '/') {
     echo "
     <!DOCTYPE html>
@@ -55,99 +55,108 @@ if (empty($route) || $route === '/') {
             <a href='{$basePath}estadocivil/index'>Estados Civiles</a>
         </div>
     </body>
-    </html>
-    ";
-} else {
-    // Rutas básicas
-    switch ($route) {
-        case 'persona':
-        case 'persona/index':
-            (new PersonaController())->index();
-            break;
-        case 'persona/create':
-            (new PersonaController())->createForm();
-            break;
-        case 'persona/edit':
-            if (isset($_GET['idpersona'])) (new PersonaController())->edit($_GET['idpersona']);
-            break;
-        case 'persona/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') (new PersonaController())->update();
-            break;
-        case 'persona/eliminar':
-            if (isset($_GET['idpersona'])) (new PersonaController())->eliminar($_GET['idpersona']);
-            break;
-        case 'persona/delete':
-        case 'persona/view':
-            if (isset($_GET['idpersona'])) (new PersonaController())->registro($_GET['idpersona']);
-            break;
-
-        case 'sexo':
-        case 'sexo/index':
-            (new SexoController())->index();
-            break;
-        case 'sexo/edit':
-            if (isset($_GET['idsexo'])) (new SexoController())->edit($_GET['idsexo']);
-            break;
-        case 'sexo/eliminar':
-            if (isset($_GET['idsexo'])) (new SexoController())->eliminar($_GET['idsexo']);
-            break;
-        case 'sexo/delete':
-        case 'sexo/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = new SexoController();
-                if ($route === 'sexo/delete') $controller->delete();
-                else $controller->update();
-            }
-            break;
-
-        case 'direccion':
-        case 'direccion/index':
-            (new DireccionController())->index();
-            break;
-        case 'direccion/create':
-            (new DireccionController())->createForm();
-            break;
-        case 'direccion/edit':
-            if (isset($_GET['iddireccion'])) (new DireccionController())->edit($_GET['iddireccion']);
-            break;
-        case 'direccion/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') (new DireccionController())->update();
-            break;
-
-        case 'telefono':
-        case 'telefono/index':
-            (new TelefonoController())->index();
-            break;
-        case 'telefono/create':
-            (new TelefonoController())->createForm();
-            break;
-        case 'telefono/edit':
-            if (isset($_GET['idtelefono'])) (new TelefonoController())->edit($_GET['idtelefono']);
-            break;
-        case 'telefono/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->update();
-            break;
-
-        case 'estadocivil':
-        case 'estadocivil/index':
-            (new EstadoCivilController())->index();
-            break;
-        case 'estadocivil/edit':
-            if (isset($_GET['idestadocivil'])) (new EstadocivilController())->edit($_GET['idestadocivil']);
-            break;
-        case 'estadocivil/update':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') (new EstadocivilController())->update();
-            break;
-        case 'estadocivil/eliminar':
-            if (isset($_GET['idestadocivil'])) (new EstadocivilController())->eliminar($_GET['idestadocivil']);
-            break;
-        case 'estadocivil/delete':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') (new EstadocivilController())->delete();
-            break;
-
-        default:
-            echo "<h2 style='color:red; text-align:center;'>Error 404: Página no encontrada.</h2>";
-            break;
-    }
+    </html>";
+    exit;
 }
-?>
+
+// Ruteo
+switch ($route) {
+    // PERSONA
+    case 'persona':
+    case 'persona/index':
+        (new PersonaController())->index();
+        break;
+    case 'persona/create':
+        (new PersonaController())->createForm();
+        break;
+    case 'persona/edit':
+        if (isset($_GET['idpersona'])) (new PersonaController())->edit($_GET['idpersona']);
+        break;
+    case 'persona/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new PersonaController())->update();
+        break;
+    case 'persona/eliminar':
+        if (isset($_GET['idpersona'])) (new PersonaController())->eliminar($_GET['idpersona']);
+        break;
+    case 'persona/delete':
+    case 'persona/view':
+        if (isset($_GET['idpersona'])) (new PersonaController())->registro($_GET['idpersona']);
+        break;
+
+    // SEXO
+    case 'sexo':
+    case 'sexo/index':
+        (new SexoController())->index();
+        break;
+    case 'sexo/edit':
+        if (isset($_GET['idsexo'])) (new SexoController())->edit($_GET['idsexo']);
+        break;
+    case 'sexo/eliminar':
+        if (isset($_GET['idsexo'])) (new SexoController())->eliminar($_GET['idsexo']);
+        break;
+    case 'sexo/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new SexoController())->update();
+        break;
+    case 'sexo/delete':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new SexoController())->delete();
+        break;
+
+    // DIRECCION
+    case 'direccion':
+    case 'direccion/index':
+        (new DireccionController())->index();
+        break;
+    case 'direccion/create':
+        (new DireccionController())->createForm();
+        break;
+    case 'direccion/edit':
+        if (isset($_GET['iddireccion'])) (new DireccionController())->editForm($_GET['iddireccion']);
+        break;
+    case 'direccion/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new DireccionController())->update();
+        break;
+    case 'direccion/delete':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new DireccionController())->delete();
+        break;
+    case 'direccion/eliminar':
+        if (isset($_GET['iddireccion'])) (new DireccionController())->deleteForm($_GET['iddireccion']);
+        break;
+
+    // TELEFONO
+    case 'telefono':
+    case 'telefono/index':
+        (new TelefonoController())->index();
+        break;
+    case 'telefono/create':
+        (new TelefonoController())->createForm();
+        break;
+    case 'telefono/edit':
+        if (isset($_GET['idtelefono'])) (new TelefonoController())->edit($_GET['idtelefono']);
+        break;
+    case 'telefono/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->update();
+        break;
+
+    // ESTADO CIVIL
+    case 'estadocivil':
+    case 'estadocivil/index':
+        (new EstadocivilController())->index();
+        break;
+    case 'estadocivil/edit':
+        if (isset($_GET['idestadocivil'])) (new EstadocivilController())->edit($_GET['idestadocivil']);
+        break;
+    case 'estadocivil/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new EstadocivilController())->update();
+        break;
+    case 'estadocivil/eliminar':
+        if (isset($_GET['idestadocivil'])) (new EstadocivilController())->eliminar($_GET['idestadocivil']);
+        break;
+    case 'estadocivil/delete':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new EstadocivilController())->delete();
+        break;
+
+    // RUTA NO DEFINIDA
+    default:
+        echo "<h2 style='color:red; text-align:center;'>Error 404: Página no encontrada.</h2>";
+        break;
+}
