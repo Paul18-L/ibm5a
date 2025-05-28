@@ -38,7 +38,7 @@ class DireccionController {
                 isset($_POST['nombre'])
             ) {
                 $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['nombre'];
+                $this->direccion->nombre = $_POST['direccion'];
 
                 if ($this->direccion->create()) {
                     header('Location: index.php?msg=created');
@@ -84,7 +84,7 @@ class DireccionController {
             ) {
                 $this->direccion->iddireccion = $_POST['iddireccion'];
                 $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['nombre'];
+                $this->direccion->nombre = $_POST['direccion'];
 
                 if ($this->direccion->update()) {
                     header('Location: index.php?msg=updated');
