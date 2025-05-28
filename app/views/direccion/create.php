@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Persona</title>
+    <title>Agregar Dirección</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,7 +32,8 @@
             color: #444;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        select {
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 20px;
@@ -43,7 +44,7 @@
         }
 
         input[type="submit"] {
-            background-color: #28a745;
+            background-color: #17a2b8;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -54,22 +55,29 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #117a8b;
         }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h2>Agregar Persona</h2>
-    <form action="../../app/controllers/PersonaController.php?action=create" method="POST">
-        <label for="nombres">Nombres:</label>
-        <input type="text" name="nombres" id="nombres" required>
+    <h2>Agregar Dirección</h2>
+    <form action="../../app/controllers/DireccionController.php?action=create" method="POST">
+        <label for="idpersona">Persona:</label>
+        <select name="idpersona" id="idpersona" required>
+            <option value="">Seleccione una persona</option>
+            <?php foreach ($personas as $persona): ?>
+                <option value="<?= htmlspecialchars($persona['idpersona']) ?>">
+                    <?= htmlspecialchars($persona['apellidos'] . ' ' . $persona['nombres']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-        <label for="apellidos">Apellidos:</label>
-        <input type="text" name="apellidos" id="apellidos" required>
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" id="direccion" required>
 
-        <input type="submit" value="Guardar Persona">
+        <input type="submit" value="Guardar Dirección">
     </form>
 </div>
 
