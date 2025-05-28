@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Teléfono</title>
+    <title>Agregar Persona</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,8 +32,7 @@
             color: #444;
         }
 
-        input[type="text"],
-        select {
+        input[type="text"] {
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 20px;
@@ -44,7 +43,7 @@
         }
 
         input[type="submit"] {
-            background-color: #007BFF;
+            background-color: #28a745;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -55,29 +54,22 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h2>Agregar Teléfono</h2>
-    <form action="../../app/controllers/TelefonoController.php?action=create" method="POST">                                                                              
-        <label for="idpersona">Persona:</label>
-        <select name="idpersona" id="idpersona" required>
-            <option value="">Seleccione una persona</option>
-            <?php foreach ($personas as $persona): ?>
-                <option value="<?= $persona['idpersona'] ?>">
-                    <?= htmlspecialchars($persona['apellidos'] . ' ' . $persona['nombres']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <h2>Agregar Persona</h2>
+    <form action="../../app/controllers/PersonaController.php?action=create" method="POST">
+        <label for="nombres">Nombres:</label>
+        <input type="text" name="nombres" id="nombres" required>
 
-        <label for="telefono">Número de Teléfono:</label>
-        <input type="text" name="telefono" id="telefono" pattern="[0-9]{7,15}" title="Ingrese un número válido de 7 a 15 dígitos" required>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" name="apellidos" id="apellidos" required>
 
-        <input type="submit" value="Guardar Teléfono">
+        <input type="submit" value="Guardar Persona">
     </form>
 </div>
 
