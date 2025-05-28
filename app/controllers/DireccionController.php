@@ -58,6 +58,7 @@ class DireccionController {
     public function editForm($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
+       $personas = $this->persona->read();
 
         if (!$direccion) {
             die("Error: No se encontró la dirección.");
