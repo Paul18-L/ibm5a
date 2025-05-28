@@ -69,7 +69,7 @@
             <option value=""> seleccione una persona</option>
             <?php foreach ($personas as $persona): ?>
                 <option value= "<?= $persona ['idpersona'] ?>">
-                <?= $persona['apellidos']. ' ' , $persona[$'nombres]
+                <?= $persona['apellidos']. ' ' . $persona[$'nombres]
                 </option>
                 <?php endforeach; ?>
                 </select>
