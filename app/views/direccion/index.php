@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Direcciones</title>
+    <title>Listar direcciones</title>
     <link rel="stylesheet" href="/ibm5a/public/css/style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Listar Direcciones</h1>
+    <h1>Listar direcciones</h1>
     <a href="/ibm5a/app/views/direccion/create.php"><button>Agregar</button></a>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Dirección</th>
-                <th>ID Persona</th>
+                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -26,14 +25,13 @@
                 <?php foreach ($direcciones as $direccion): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
-                        <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
-                        <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['descripcion']); ?></td>
                         <td>
-                            <a href="/ibm5a/app/controllers/DireccionController.php?action=editForm&id=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
+                            <a href="/ibm5a/public/direccion/edit?iddireccion=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
                                 <button>Editar</button>
                             </a>
-                            <a href="/ibm5a/app/controllers/DireccionController.php?action=deleteForm&id=<?php echo htmlspecialchars($direccion['iddireccion']); ?>" 
-                               onclick="return confirm('¿Estás seguro de eliminar esta dirección?');">
+                            <a href="/ibm5a/public/direccion/eliminar?iddireccion=<?php echo htmlspecialchars($direccion['iddireccion']); ?>" 
+                               onclick="return confirm('¿Estás seguro de eliminar este registro?');">
                                 <button>Eliminar</button>
                             </a>
                         </td>
@@ -41,7 +39,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4">No hay registros disponibles.</td>
+                    <td colspan="3">No hay registros disponibles.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
