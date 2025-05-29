@@ -107,7 +107,7 @@ switch ($route) {
         (new DireccionController())->index();
         break;
     case 'direccion/create':
-        (new DireccionController())->createForm();
+        (new DireccionController())->create();
         break;
     case 'direccion/edit':
         if (isset($_GET['iddireccion'])) (new DireccionController())->editForm($_GET['iddireccion']);
