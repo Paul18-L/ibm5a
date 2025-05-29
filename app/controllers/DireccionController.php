@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-// Este módulo corresponde a Masapanta Steven
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -23,6 +23,13 @@ class DireccionController {
         $direcciones = $this->direccion->read();
         require_once '../app/views/direccion/index.php';
     }
+    public function createForm() {
+
+
+        $personas = $this->persona->read();
+        require_once '../app/views/direccion/create.php';
+    }
+    
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
