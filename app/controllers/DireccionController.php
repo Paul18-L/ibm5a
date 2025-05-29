@@ -23,7 +23,7 @@ class DireccionController {
         $direcciones = $this->direccion->read();
         require_once '../app/views/direccion/index.php';
     }
-    public function createForm() {
+    public function create() {
 
 
         $personas = $this->persona->read();
