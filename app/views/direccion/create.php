@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Teléfono</title>
+    <title>Agregar Dirección</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,6 +33,7 @@
         }
 
         input[type="text"],
+        input[type="number"],
         select {
             width: 100%;
             padding: 10px 12px;
@@ -44,7 +45,7 @@
         }
 
         input[type="submit"] {
-            background-color: #007BFF;
+            background-color: #17a2b8;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -55,16 +56,16 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #117a8b;
         }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h2>Agregar Teléfono</h2>
-    <form action="../../app/controllers/DireccionController.php?action=create" method="POST">                                                                              
-        <label for="idpersona">Persona:</label>
+    <h2>Agregar Dirección</h2>
+    <form action="../../app/controllers/DireccionController.php?action=create" method="POST">
+        <label for="idpersona">ID de Persona:</label>
         <select name="idpersona" id="idpersona" required>
             <option value="">Seleccione una persona</option>
             <?php foreach ($personas as $persona): ?>
@@ -74,10 +75,10 @@
             <?php endforeach; ?>
         </select>
 
-        <label for="nombre">Número de Teléfono:</label>
-        <input type="text" name="nombre" id="nombre" required>
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" id="direccion" required placeholder="Ingrese la dirección">
 
-        <input type="submit" value="Guardar Teléfono">
+        <input type="submit" value="Guardar Dirección">
     </form>
 </div>
 
