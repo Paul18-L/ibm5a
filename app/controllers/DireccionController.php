@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <?php
+
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// En DireccionController.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Direccion.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
-
 class DireccionController {
     private $direccion;
     private $db;
@@ -14,28 +16,26 @@ class DireccionController {
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->direccion = new Direccion($this->db);
-        $this->persona = new Persona($this->db);
     }
 
     // Mostrar todas las direcciones
     public function index() {
-        $direccions = $this->direccion->read();
+        $direcciones = $this->direccion->read();
         require_once '../app/views/direccion/index.php';
     }
-
-    // Formulario de creación
     public function createForm() {
+
+
         $personas = $this->persona->read();
         require_once '../app/views/direccion/create.php';
     }
+    
 
-    // Guardar nueva dirección
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Formulario recibido";
-            if (isset($_POST['descripcion']) && isset($_POST['idpersona'])) {
-                $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->descripcion = $_POST['descripcion'];
+            if (isset($_POST['detalle'])) {
+                $this->direccion->detalle = $_POST['detalle'];
                 if ($this->direccion->create()) {
                     echo "Dirección creada exitosamente";
                 } else {
@@ -50,11 +50,9 @@ class DireccionController {
         die();
     }
 
-    // Formulario de edición
-    public function edit($iddireccion) {
-        $this->direccion->iddireccion = $iddireccion;
+    public function edit($id) {
+        $this->direccion->id = $id;
         $direccion = $this->direccion->readOne();
-        $personas = $this->persona->read();
 
         if (!$direccion) {
             die("Error: No se encontró el registro.");
@@ -63,9 +61,8 @@ class DireccionController {
         require_once '../app/views/direccion/edit.php';
     }
 
-    // Formulario de confirmación para eliminar
     public function eliminar($id) {
-        $this->direccion->iddireccion = $id;
+        $this->direccion->id = $id;
         $direccion = $this->direccion->readOne();
 
         if (!$direccion) {
@@ -75,14 +72,12 @@ class DireccionController {
         require_once '../app/views/direccion/delete.php';
     }
 
-    // Actualizar dirección
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Formulario recibido";
-            if (isset($_POST['descripcion']) && isset($_POST['idpersona']) && isset($_POST['iddireccion'])) {
-                $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->descripcion = $_POST['descripcion'];
-                $this->direccion->iddireccion = $_POST['iddireccion'];
+            if (isset($_POST['detalle'])) {
+                $this->direccion->detalle = $_POST['detalle'];
+                $this->direccion->id = $_POST['id'];
                 if ($this->direccion->update()) {
                     echo "Dirección actualizada exitosamente";
                 } else {
@@ -97,16 +92,17 @@ class DireccionController {
         die();
     }
 
-    // Eliminar dirección
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
-                $this->direccion->iddireccion = $_POST['id'];
+                $this->direccion->id = $_POST['id'];
                 if ($this->direccion->delete()) {
                     echo "Dirección borrada exitosamente";
+                    die();
+                    header('Location: index.php?msg=deleted');
                     exit;
                 } else {
-                    echo "Error al eliminar la dirección";
+                    header('Location: index.php?msg=error');
                     exit;
                 }
             } else {
@@ -117,40 +113,16 @@ class DireccionController {
         }
         die();
     }
-
-    // API para obtener todas las direcciones
-    public function api() {
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        $direcciones = $this->direccion->read();
-        header('Content-Type: application/json');
-        echo json_encode($direcciones);
-        exit;
-    }
 }
 
-// Manejo de la acción desde la URL
+// Manejo de la acción en la URL
 if (isset($_GET['action'])) {
     $controller = new DireccionController();
 
+    echo "hola";
     switch ($_GET['action']) {
-        case 'createForm':
-            $controller->createForm();
-            break;
         case 'create':
             $controller->create();
-            break;
-        case 'edit':
-            if (isset($_GET['id'])) {
-                $controller->edit($_GET['id']);
-            }
-            break;
-        case 'eliminar':
-            if (isset($_GET['id'])) {
-                $controller->eliminar($_GET['id']);
-            }
             break;
         case 'update':
             $controller->update();
@@ -158,16 +130,11 @@ if (isset($_GET['action'])) {
         case 'delete':
             $controller->delete();
             break;
-        case 'api':
-            $controller->api();
-            break;
         default:
             echo "Acción no válida.";
             break;
     }
 } else {
-    // Mostrar index por defecto si no se especifica acción
-    $controller = new DireccionController();
-    $controller->index();
+    // echo "No se especificó ninguna acción.";
 }
 ?>
