@@ -33,7 +33,6 @@
         }
 
         input[type="text"],
-        input[type="number"],
         select {
             width: 100%;
             padding: 10px 12px;
@@ -65,18 +64,18 @@
 <div class="form-container">
     <h2>Agregar Dirección</h2>
     <form action="../../app/controllers/DireccionController.php?action=create" method="POST">
-        <label for="idpersona">ID de Persona:</label>
+        <label for="idpersona">Persona:</label>
         <select name="idpersona" id="idpersona" required>
             <option value="">Seleccione una persona</option>
             <?php foreach ($personas as $persona): ?>
                 <option value="<?= $persona['idpersona'] ?>">
-                    <?= $persona['apellidos'] . ' ' . $persona['nombres'] ?>
+                    <?= htmlspecialchars($persona['apellidos'] . ' ' . $persona['nombres']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
 
-        <label for="direccion">Dirección:</label>
-        <input type="text" name="direccion" id="direccion" required placeholder="Ingrese la dirección">
+        <label for="detalle">Dirección:</label>
+        <input type="text" name="detalle" id="detalle" required placeholder="Ingrese la dirección">
 
         <input type="submit" value="Guardar Dirección">
     </form>
