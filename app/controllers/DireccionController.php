@@ -20,7 +20,7 @@ class DireccionController {
 
     // Mostrar todos los teléfonos
     public function index() {
-        $direccions = $this->direccion->read1();
+        $direccions = $this->direccion->readOne();
         require_once '../app/views/direccion/index.php';
     }
 
