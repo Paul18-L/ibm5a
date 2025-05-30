@@ -90,11 +90,6 @@ class Persona {
         }
     }
 
-    // Obtener todas las personas (duplicado de read, se puede eliminar si no se usa)
-    public function getAll() {
-        return $this->read();
-    }
-
     // Eliminar una persona
     public function delete() {
         try {
@@ -125,3 +120,4 @@ class Persona {
         }
     }
 }
+?>
