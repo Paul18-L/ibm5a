@@ -165,10 +165,6 @@ class PersonaController {
         }
     }
 
-    public function api() {
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
 
         $personas = $this->persona->getAll();
         header('Content-Type: application/json');
@@ -227,5 +223,9 @@ if (isset($_GET['action'])) {
             echo "Acción no válida.";
             break;
     }
+} else{
+    //$controlador = nuevaPersonaController();
+    //$controlador->indice();// Accion por defecto si no se especifica ninguna
 }
+?>
 ?>
