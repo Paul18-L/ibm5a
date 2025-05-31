@@ -27,7 +27,6 @@ class PersonaController {
         $personas = $this->persona->read();
         $sexos = $this->sexo->read();
         $estadosciviles = $this->estadocivil->read();
-
         require_once '../app/views/persona/index.php';
     }
 
@@ -38,32 +37,17 @@ class PersonaController {
     }
 
     public function create() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (
-                isset($_POST['nombres']) &&
-                isset($_POST['apellidos']) &&
-                isset($_POST['fechanacimiento']) &&
-                isset($_POST['idsexo']) &&
-                isset($_POST['idestadocivil'])
-            ) {
-                $this->persona->nombres = $_POST['nombres'];
-                $this->persona->apellidos = $_POST['apellidos'];
-                $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-                $this->persona->idsexo = $_POST['idsexo'];
-                $this->persona->idestadocivil = $_POST['idestadocivil'];
+        $this->persona->nombres = $_POST['nombres'];
+        $this->persona->apellidos = $_POST['apellidos'];
+        $this->persona->fechanacimiento = $_POST['fechanacimiento'];
+        $this->persona->idsexo = $_POST['idsexo'];
+        $this->persona->idestadocivil = $_POST['idestadocivil'];
 
-                if ($this->persona->create()) {
-                    echo "Persona creada con éxito.";
-                } else {
-                    $error = "Error al crear la persona.";
-                    require_once '../app/views/persona/create.php';
-                }
-            } else {
-                $error = "Faltan datos en el formulario.";
-                require_once '../app/views/persona/create.php';
-            }
+        if ($this->persona->create()) {
+            echo "personas creada con exito";
         } else {
-            header('Location: index.php');
+            $error = "Error al crear la persona.";
+            require_once '../app/views/persona/create.php';
             exit;
         }
     }
@@ -85,7 +69,6 @@ class PersonaController {
         $this->persona->idpersona = $idpersona;
         $sexos = $this->sexo->read();
         $estadosciviles = $this->estadocivil->read();
-
         $telefonos = $this->telefono->readByPersona($idpersona);
         $direcciones = $this->direccion->readByPersona($idpersona);
         $persona = $this->persona->readOne();
@@ -119,12 +102,12 @@ class PersonaController {
                     exit;
                 } else {
                     $error = "Error al actualizar la persona.";
-                    $this->edit($_POST['idpersona']);
+                    $this->editForm($_POST['idpersona']);
                     exit;
                 }
             } else {
                 $error = "Faltan datos en el formulario de actualización.";
-                $this->edit($_POST['idpersona']);
+                $this->editForm($_POST['idpersona']);
                 exit;
             }
         } else {
@@ -165,15 +148,18 @@ class PersonaController {
         }
     }
 
+    public function api() {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
 
-        $persona = $this->persona->getAll();
+        $personas = $this->persona->getAll();
         header('Content-Type: application/json');
         echo json_encode($personas);
         exit;
     }
 }
 
-// Manejo de la acción en la URL
 if (isset($_GET['action'])) {
     $controller = new PersonaController();
     $action = $_GET['action'];
@@ -186,7 +172,7 @@ if (isset($_GET['action'])) {
         $id = null;
     }
 
-    switch ($action) {
+    switch ($_GET['action']) {
         case 'index':
             $controller->index();
             break;
@@ -198,7 +184,7 @@ if (isset($_GET['action'])) {
             break;
         case 'editForm':
             if ($id !== null) {
-                $controller->edit($id);
+                $controller->editForm($id);
             } else {
                 echo "Error: ID de persona no especificado para editar.";
             }
@@ -223,9 +209,5 @@ if (isset($_GET['action'])) {
             echo "Acción no válida.";
             break;
     }
-} else{
-    //$controlador = nuevaPersonaController();
-    //$controlador->indice();// Accion por defecto si no se especifica ninguna
 }
-?>
 ?>
