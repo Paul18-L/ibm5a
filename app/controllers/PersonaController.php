@@ -40,8 +40,8 @@ class PersonaController {
         $this->persona->nombres = $_POST['nombres'];
         $this->persona->apellidos = $_POST['apellidos'];
         $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-        $this->persona->idsexo = $_POST['idsexo'];
-        $this->persona->idestadocivil = $_POST['idestadocivil'];
+        $this->persona->sexo = $_POST['sexo'];
+        $this->persona->estadocivil = $_POST['estadocivil'];
 
         if ($this->persona->create()) {
             echo "personas creada con exito";
