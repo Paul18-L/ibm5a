@@ -102,7 +102,7 @@ class Persona {
             // Verificación de relaciones antes de eliminar (si es necesario implementar)
             // Ejemplo: verificar si tiene direcciones, teléfonos, etc.
 
-            $query = "DELETE FROM $this->table_name WHERE idpersona = :idpersona";
+            $query = "DELETE FROM" . $this->table_name "WHERE idpersona = :idpersona";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
 
