@@ -24,8 +24,9 @@
             <?php if (!empty($direcciones) && is_array($direcciones)): ?>
                 <?php foreach ($direcciones as $direccion): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
                         <td><?php echo htmlspecialchars($direccion['descripcion']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
                         <td>
                             <a href="/ibm5a/public/direccion/edit?iddireccion=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
                                 <button>Editar</button>
