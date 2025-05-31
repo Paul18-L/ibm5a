@@ -41,11 +41,11 @@ class DireccionController {
             echo "Formulario recibido";
             if (isset($_POST['idpersona']))  {
                 $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['nombre'];
+                $this->direccion->nombre = $_POST['direccion'];
                 if ($this->direccion->create()) {
-                    echo "Teléfono creado exitosamente";
+                    echo "direccion creada exitosamente";
                 } else {
-                    echo "Error al crear el teléfono";
+                    echo "Error al crear direccion";
                 }
             } else {
                 echo "Faltan datos";
