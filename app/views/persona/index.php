@@ -32,8 +32,8 @@
                         <td><?php echo htmlspecialchars($persona['nombres']); ?></td>
                         <td><?php echo htmlspecialchars($persona['apellidos']); ?></td>
                         <td><?php echo htmlspecialchars($persona['fechanacimiento']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['sexo']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['estadocivil']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['idsexo']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['idestadocivil']); ?></td>
                         <td>
                             <a href="/ibm5a/public/persona/view?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
                                 <button>View</button>
