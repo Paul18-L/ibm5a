@@ -40,8 +40,8 @@ class PersonaController {
         $this->persona->nombres = $_POST['nombres'];
         $this->persona->apellidos = $_POST['apellidos'];
         $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-        $this->persona->idsexo = $_POST['idsexo'];
-        $this->persona->idestadocivil = $_POST['idestadocivil'];
+        $this->persona->idsexo = $_POST['sexo'];
+        $this->persona->idestadocivil = $_POST['estadocivil'];
 
         if ($this->persona->create()) {
             echo "personas creada con exito";
@@ -87,15 +87,15 @@ class PersonaController {
                 isset($_POST['nombres']) &&
                 isset($_POST['apellidos']) &&
                 isset($_POST['fechanacimiento']) &&
-                isset($_POST['idsexo']) &&
-                isset($_POST['idestadocivil'])
+                isset($_POST['sexo']) &&
+                isset($_POST['estadocivil'])
             ) {
                 $this->persona->idpersona = $_POST['idpersona'];
                 $this->persona->nombres = $_POST['nombres'];
                 $this->persona->apellidos = $_POST['apellidos'];
                 $this->persona->fechanacimiento = $_POST['fechanacimiento'];
-                $this->persona->idsexo = $_POST['idsexo'];
-                $this->persona->idestadocivil = $_POST['idestadocivil'];
+                $this->persona->sexo = $_POST['sexo'];
+                $this->persona->estadocivil = $_POST['estadocivil'];
 
                 if ($this->persona->update()) {
                     header('Location: index.php?msg=updated');
