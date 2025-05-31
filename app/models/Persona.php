@@ -18,32 +18,35 @@ class Persona {
     }
 
     // Crear una nueva persona
-    public function create() {
-        try {
-            $query = "INSERT INTO " . $this->table_name . " (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
-                      VALUES (:nombres, :apellidos, :fechanacimiento, :idsexo, :idestadocivil)";
+    
+public function create() {
+    try {
+        $query = "INSERT INTO " . $this->table_name . " (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
+                  VALUES (:nombres, :apellidos, :fechanacimiento, :idsexo, :idestadocivil)";
 
-            $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-            // Bind de los valores
-            $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
-            $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
-            $stmt->bindParam(":fechanacimiento", $this->fechanacimiento, PDO::PARAM_STR);
-            $stmt->bindParam(":idsexo", $this->idsexo, PDO::PARAM_INT);
-            $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
+        // Bind de los valores
+        $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
+        $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
+        $stmt->bindParam(":fechanacimiento", $this->fechanacimiento, PDO::PARAM_STR);
+        $stmt->bindParam(":idsexo", $this->idsexo, PDO::PARAM_INT);
+        $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
 
-            return $stmt->execute();
+        if ($stmt->execute()) {
             echo "grabo";
-            die();
-        } catch (PDOException $e) {
-            echo "no grabo:  ".$this->idestadocivil;
-            echo $e->getMessage();
-            error_log("Error en create() para persona: " . $e->getMessage());
-            die();
+            return true;
+        } else {
+            echo "no grabo";
             return false;
         }
-    }
 
+    } catch (PDOException $e) {
+        echo "ERROR: " . $e->getMessage();
+        error_log("Error en create() para persona: " . $e->getMessage());
+        return false;
+    }
+}
     // Leer todas las personas
     public function read() {
     $query = "SELECT p.idpersona, p.nombres, p.apellidos, p.fechanacimiento,
@@ -52,7 +55,7 @@ class Persona {
               FROM persona p
               LEFT JOIN sexo s ON p.idsexo = s.idsexo
               LEFT JOIN estadocivil e ON p.idestadocivil = e.idestadocivil";
-
+var_dump($this->nombres, $this->apellidos, $this->fechanacimiento, $this->idsexo, $this->idestadocivil);
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
