@@ -166,7 +166,7 @@ class PersonaController {
     }
 
 
-        $personas = $this->persona->getAll();
+        $persona = $this->persona->getAll();
         header('Content-Type: application/json');
         echo json_encode($personas);
         exit;
