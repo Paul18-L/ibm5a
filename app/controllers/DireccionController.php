@@ -59,7 +59,7 @@ class DireccionController {
     public function edit($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
-        $personas = $this->persona->read();
+        $persona = $this->persona->read();
 
         if (!$direccion) {
             die("Error: No se encontró el registro.");
@@ -100,7 +100,7 @@ class DireccionController {
         die();
     }
 
-    public function delete() {
+    public function delete(id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
                 $this->direccion->id = $_POST['id'];
