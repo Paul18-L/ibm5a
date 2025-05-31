@@ -21,11 +21,11 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($direcciones) && is_array($direcciones)): ?>
-                <?php foreach ($direcciones as $direccion): ?>
+            <?php if (!empty($direccion) && is_array($direccion)): ?>
+                <?php foreach ($direccion as $direccion): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
-                        <td><?php echo htmlspecialchars($direccion['descripcion']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
                         <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
                         <td>
                             <a href="/ibm5a/public/direccion/edit?iddireccion=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
