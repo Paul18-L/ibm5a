@@ -47,7 +47,7 @@ class Persona {
     // Leer todas las personas
     public function read() {
         try {
-            $query = "SELECT * FROM persona1";    // . $this->table_name;
+            $query = "SELECT * FROM persona";    // . $this->table_name;
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
