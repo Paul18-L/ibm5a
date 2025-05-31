@@ -67,7 +67,7 @@ class Persona {
     // Actualizar una persona
     public function update() {
         try {
-            $query = "UPDATE " $this->table_name . " SET
+            $query = "UPDATE " . $this->table_name . " SET
                         nombres = :nombres,
                         apellidos = :apellidos,
                         fechanacimiento = :fechanacimiento,
