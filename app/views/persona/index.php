@@ -32,8 +32,8 @@
                         <td><?php echo htmlspecialchars($persona['nombres']); ?></td>
                         <td><?php echo htmlspecialchars($persona['apellidos']); ?></td>
                         <td><?php echo htmlspecialchars($persona['fechanacimiento']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['idsexo']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['idestadocivil']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['Sexo']); ?></td>
+                        <td><?php echo htmlspecialchars($persona['Estadocivil']); ?></td>
                         <td>
                             <a href="/ibm5a/public/persona/view?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
                                 <button>View</button>
@@ -41,7 +41,7 @@
                             <a href="/ibm5a/public/persona/edit?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
                                 <button>Editar</button>
                             </a>
-                            <a href="/ibm5a/public/persona/deleteForm?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>"
+                            <a href="/ibm5a/public/persona/delete?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>"
                                onclick="return confirm('¿Estás seguro de eliminar esta persona?');">
                                 <button>Eliminar</button>
                             </a>
