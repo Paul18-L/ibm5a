@@ -12,7 +12,7 @@ class Persona {
     public $idsexo;
     public $idestadocivil;
 
-    // Constructor
+    // Constructor para la conexión a la base de datos
     public function __construct($db) {
         $this->conn = $db;
     }
@@ -20,10 +20,12 @@ class Persona {
     // Crear una nueva persona
     public function create() {
         try {
-            $query = "INSERT INTO $this->table_name (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
+            $query = "INSERT INTO " . $this->table_name . " (nombres, apellidos, fechanacimiento, idsexo, idestadocivil)
                       VALUES (:nombres, :apellidos, :fechanacimiento, :idsexo, :idestadocivil)";
+
             $stmt = $this->conn->prepare($query);
 
+            // Bind de los valores
             $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
             $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
             $stmt->bindParam(":fechanacimiento", $this->fechanacimiento, PDO::PARAM_STR);
@@ -31,8 +33,13 @@ class Persona {
             $stmt->bindParam(":idestadocivil", $this->idestadocivil, PDO::PARAM_INT);
 
             return $stmt->execute();
+            echo "grabo";
+            die();
         } catch (PDOException $e) {
-            error_log("Error en create() persona: " . $e->getMessage());
+            echo "no grabo:  ".$this->idestadocivil;
+            echo $e->getMessage();
+            error_log("Error en create() para persona: " . $e->getMessage());
+            die();
             return false;
         }
     }
@@ -40,26 +47,30 @@ class Persona {
     // Leer todas las personas
     public function read() {
         try {
-            $query = "SELECT * FROM persona"; //$this->table_name
+            $query = "SELECT * FROM persona1";    // . $this->table_name;
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         } catch (PDOException $e) {
-            error_log("Error en read() persona: " . $e->getMessage());
+            error_log("Error en read() para persona: " . $e->getMessage());
             return [];
         }
     }
 
-    // Leer una sola persona
+    // Leer una sola persona por ID
     public function readOne() {
         try {
-            $query = "SELECT * FROM $this->table_name WHERE idpersona = :idpersona LIMIT 1";
+            $query = "SELECT * FROM " . $this->table_name . " WHERE idpersona = :idpersona LIMIT 1";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
             $stmt->execute();
+
             return $stmt->fetch(PDO::FETCH_ASSOC);
+
         } catch (PDOException $e) {
-            error_log("Error en readOne() persona: " . $e->getMessage());
+            error_log("Error en readOne() para persona: " . $e->getMessage());
             return null;
         }
     }
@@ -74,8 +85,10 @@ class Persona {
                         idsexo = :idsexo,
                         idestadocivil = :idestadocivil
                       WHERE idpersona = :idpersona";
+
             $stmt = $this->conn->prepare($query);
 
+            // Bind de los valores
             $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
             $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
             $stmt->bindParam(":fechanacimiento", $this->fechanacimiento, PDO::PARAM_STR);
@@ -84,38 +97,42 @@ class Persona {
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
 
             return $stmt->execute();
+
         } catch (PDOException $e) {
-            error_log("Error en update() persona: " . $e->getMessage());
+            error_log("Error en update() para persona: " . $e->getMessage());
             return false;
         }
+    }
+
+
+    public function getAll() {
+        // Conexión a la base de datos
+        $query = $this->conn->query("SELECT * FROM persona1");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Eliminar una persona
     public function delete() {
         try {
-            // Validar que idpersona esté definido y sea numérico
-            if (!isset($this->idpersona) || !is_numeric($this->idpersona)) {
-                error_log("ID de persona inválido para eliminación.");
+            if (empty($this->idpersona)) {
                 return false;
             }
+            error_log("Intentando eliminar la persona con ID: " . $this->idpersona);
 
-            // Verificación de relaciones antes de eliminar (si es necesario implementar)
-            // Ejemplo: verificar si tiene direcciones, teléfonos, etc.
-
-            $query = "DELETE FROM" . $this->table_name "WHERE idpersona = :idpersona";
+            $query = "DELETE FROM " . $this->table_name . " WHERE idpersona = :idpersona";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":idpersona", $this->idpersona, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
-                error_log("Persona eliminada correctamente (ID: $this->idpersona)");
+                error_log("Persona con ID " . $this->idpersona . " eliminada correctamente.");
                 return true;
             } else {
-                $error = $stmt->errorInfo();
-                error_log("Error al eliminar persona: " . print_r($error, true));
+                error_log("Error en delete() para persona: La consulta no se ejecutó correctamente.");
                 return false;
             }
+
         } catch (PDOException $e) {
-            error_log("Excepción en delete() persona: " . $e->getMessage());
+            error_log("Error en delete() para persona: " . $e->getMessage());
             return false;
         }
     }
