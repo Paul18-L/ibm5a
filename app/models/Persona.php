@@ -40,7 +40,7 @@ class Persona {
     // Leer todas las personas
     public function read() {
         try {
-            $query = "SELECT * FROM $this->table_name";
+            $query = "SELECT * FROM persona"; //$this->table_name
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -67,7 +67,7 @@ class Persona {
     // Actualizar una persona
     public function update() {
         try {
-            $query = "UPDATE $this->table_name SET
+            $query = "UPDATE " $this->table_name . " SET
                         nombres = :nombres,
                         apellidos = :apellidos,
                         fechanacimiento = :fechanacimiento,
