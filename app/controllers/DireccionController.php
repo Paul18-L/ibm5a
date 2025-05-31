@@ -68,7 +68,7 @@ class DireccionController {
         require_once '../app/views/direccion/edit.php';
     }
 
-    public function eliminar($id) {
+    public function eliminar($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
 
@@ -103,7 +103,7 @@ class DireccionController {
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
-                $this->direccion->id = $_POST['id'];
+                $this->direccion->iddireccion= $_POST['id'];
                 if ($this->direccion->delete()) {
                     echo "Teléfono borrado exitosamente";
                     die();
