@@ -39,7 +39,7 @@ class DireccionController {
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Formulario recibido";
-            if (isset($_POST['nombre'])) && ! (isset($_POST['idpersona'])) {
+            if (isset($_POST['idpersona']))  {
                 $this->direccion->idpersona = $_POST['idpersona'];
                 $this->direccion->nombre = $_POST['nombre'];
                 if ($this->direccion->create()) {
