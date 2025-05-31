@@ -100,7 +100,7 @@ class DireccionController {
         die();
     }
 
-    public function delete(id) {
+    public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
                 $this->direccion->id = $_POST['id'];
