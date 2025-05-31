@@ -20,7 +20,7 @@ class DireccionController {
 
     // Mostrar todos los teléfonos
     public function index() {
-        $direccions = $this->direccion->read();
+        $direccion = $this->direccion->read();
         require_once '../app/views/direccion/index.php';
     }
 
@@ -128,9 +128,9 @@ class DireccionController {
             ob_end_clean();
         }
 
-        $direcciones = $this->direccion->getAll();
+        $direccion = $this->direccion->getAll();
         header('Content-Type: application/json');
-        echo json_encode($direcciones);
+        echo json_encode($direccion);
         exit;
     }
 }
