@@ -31,10 +31,11 @@
                         <td><?php echo htmlspecialchars($persona['idpersona']); ?></td>
                         <td><?php echo htmlspecialchars($persona['nombres']); ?></td>
                         <td><?php echo htmlspecialchars($persona['apellidos']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['fechanacimiento']); ?></td>
-                <td><?php echo htmlspecialchars($persona['sexo']); ?></td>
-                        <td><?php echo htmlspecialchars($persona['estadocivil']); ?></td> <td>
-
+                         <td><?php echo htmlspecialchars($persona['fechanacimiento']); ?></td>
+                
+                        <td><?php echo htmlspecialchars((string)($persona['sexo'] ?? 'No definido')); ?></td>
+<td><?php echo htmlspecialchars((string)($persona['estadocivil'] ?? 'No definido')); ?></td>lo
+                        
                     
                         <td>
                             <a href="/ibm5a/public/persona/view?idpersona=<?php echo htmlspecialchars($persona['idpersona']); ?>">
