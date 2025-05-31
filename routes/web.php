@@ -9,54 +9,78 @@ require_once '../app/controllers/TelefonoController.php';
 require_once '../app/controllers/EstadocivilController.php';
 
 $requestUri = $_SERVER["REQUEST_URI"];
-$basePath = '/ibm5a/public/';
+$basePath = '/ibm5a/';  // Cambiado a ibm5a
 // Remover el prefijo basePath
 $route = str_replace($basePath, '', $requestUri);
 $route = strtok($route, '?'); // Quitar parámetros GET
 
-// Función para crear instancia del controlador según nombre
-function createController($name) {
-    switch ($name) {
-        case 'persona':
-            return new PersonaController();
-        case 'sexo':
-            return new SexoController();
-        case 'direccion':
-            return new DireccionController();
-        case 'telefono':
-            return new TelefonoController();
-        case 'estadocivil':
-            return new EstadocivilController();
-        default:
-            return null;
-    }
-}
-
+// Mostrar el menú si no se ha solicitado ninguna acción específica
 if (empty($route) || $route === '/') {
-    // Menú principal
-    echo "<h1>Menú de Tablas</h1>";
-    echo "<ul>";
-    echo "<li><a href='" . $basePath . "persona/index'>Personas</a></li>";
-    echo "<li><a href='" . $basePath . "sexo/index'>Sexos</a></li>";
-    echo "<li><a href='" . $basePath . "direccion/index'>Direcciones</a></li>";
-    echo "<li><a href='" . $basePath . "telefono/index'>Teléfonos</a></li>";
-    echo "<li><a href='" . $basePath . "estadocivil/index'>Estados Civiles</a></li>";
-    echo "</ul>";
+    ?>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Menú de Tablas</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 30px;
+                background-color: #f9f9f9;
+            }
+            h1 {
+                color: #333;
+            }
+            ul.menu {
+                list-style: none;
+                padding: 0;
+                max-width: 300px;
+            }
+            ul.menu li {
+                background-color: #4CAF50;
+                margin: 8px 0;
+                padding: 12px;
+                border-radius: 5px;
+                text-align: center;
+            }
+            ul.menu li a {
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                display: block;
+            }
+            ul.menu li a:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Menú de Tablas</h1>
+        <ul class="menu">
+            <li><a href="<?php echo $basePath; ?>persona/index">Personas</a></li>
+            <li><a href="<?php echo $basePath; ?>sexo/index">Sexos</a></li>
+            <li><a href="<?php echo $basePath; ?>direccion/index">Direcciones</a></li>
+            <li><a href="<?php echo $basePath; ?>telefono/index">Teléfonos</a></li>
+            <li><a href="<?php echo $basePath; ?>estadocivil/index">Estados Civiles</a></li>
+        </ul>
+    </body>
+    </html>
+    <?php
 } else {
+    // Enrutar a los controladores según la ruta
     switch ($route) {
-        // PERSONA
         case 'persona':
         case 'persona/index':
-            $controller = createController('persona');
+            $controller = new PersonaController();
             $controller->index();
             break;
         case 'persona/create':
-            $controller = createController('persona');
+            $controller = new PersonaController();
             $controller->createForm();
             break;
         case 'persona/edit':
             if (isset($_GET['idpersona'])) {
-                $controller = createController('persona');
+                $controller = new PersonaController();
                 $controller->edit($_GET['idpersona']);
             } else {
                 echo "Error: Falta el ID para editar.";
@@ -64,28 +88,27 @@ if (empty($route) || $route === '/') {
             break;
         case 'persona/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('persona');
+                $controller = new PersonaController();
                 $controller->update();
             }
             break;
         case 'persona/view':
             if (isset($_GET['idpersona'])) {
-                $controller = createController('persona');
+                $controller = new PersonaController();
                 $controller->registro($_GET['idpersona']);
             } else {
-                echo "Error: Falta el ID para ver.";
+                echo "Error: Falta el ID para editar.";
             }
             break;
 
-        // SEXO
         case 'sexo':
         case 'sexo/index':
-            $controller = createController('sexo');
+            $controller = new SexoController();
             $controller->index();
             break;
         case 'sexo/edit':
             if (isset($_GET['idsexo'])) {
-                $controller = createController('sexo');
+                $controller = new SexoController();
                 $controller->edit($_GET['idsexo']);
             } else {
                 echo "Error: Falta el ID para editar.";
@@ -93,38 +116,37 @@ if (empty($route) || $route === '/') {
             break;
         case 'sexo/eliminar':
             if (isset($_GET['idsexo'])) {
-                $controller = createController('sexo');
+                $controller = new SexoController();
                 $controller->eliminar($_GET['idsexo']);
             } else {
-                echo "Error: Falta el ID para eliminar.";
+                echo "Error: Falta el ID para editar.";
             }
             break;
         case 'sexo/delete':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('sexo');
+                $controller = new SexoController();
                 $controller->delete();
             }
             break;
         case 'sexo/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('sexo');
+                $controller = new SexoController();
                 $controller->update();
             }
             break;
 
-        // DIRECCION
         case 'direccion':
         case 'direccion/index':
-            $controller = createController('direccion');
+            $controller = new DireccionController();
             $controller->index();
             break;
         case 'direccion/create':
-            $controller = createController('direccion');
+            $controller = new DireccionController();
             $controller->createForm();
             break;
         case 'direccion/edit':
             if (isset($_GET['iddireccion'])) {
-                $controller = createController('direccion');
+                $controller = new DireccionController();
                 $controller->edit($_GET['iddireccion']);
             } else {
                 echo "Error: Falta el ID para editar.";
@@ -132,24 +154,23 @@ if (empty($route) || $route === '/') {
             break;
         case 'direccion/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('direccion');
+                $controller = new DireccionController();
                 $controller->update();
             }
             break;
 
-        // TELEFONO
         case 'telefono':
         case 'telefono/index':
-            $controller = createController('telefono');
+            $controller = new TelefonoController();
             $controller->index();
             break;
         case 'telefono/create':
-            $controller = createController('telefono');
+            $controller = new TelefonoController();
             $controller->createForm();
             break;
         case 'telefono/edit':
             if (isset($_GET['idtelefono'])) {
-                $controller = createController('telefono');
+                $controller = new TelefonoController();
                 $controller->edit($_GET['idtelefono']);
             } else {
                 echo "Error: Falta el ID para editar.";
@@ -157,20 +178,19 @@ if (empty($route) || $route === '/') {
             break;
         case 'telefono/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('telefono');
+                $controller = new TelefonoController();
                 $controller->update();
             }
             break;
 
-        // ESTADO CIVIL
         case 'estadocivil':
         case 'estadocivil/index':
-            $controller = createController('estadocivil');
+            $controller = new EstadocivilController();
             $controller->index();
             break;
         case 'estadocivil/edit':
             if (isset($_GET['idestadocivil'])) {
-                $controller = createController('estadocivil');
+                $controller = new EstadocivilController();
                 $controller->edit($_GET['idestadocivil']);
             } else {
                 echo "Error: Falta el ID para editar.";
@@ -178,21 +198,21 @@ if (empty($route) || $route === '/') {
             break;
         case 'estadocivil/update':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('estadocivil');
+                $controller = new EstadocivilController();
                 $controller->update();
             }
             break;
         case 'estadocivil/eliminar':
             if (isset($_GET['idestadocivil'])) {
-                $controller = createController('estadocivil');
+                $controller = new EstadocivilController();
                 $controller->eliminar($_GET['idestadocivil']);
             } else {
-                echo "Error: Falta el ID para eliminar.";
+                echo "Error: Falta el ID para editar.";
             }
             break;
         case 'estadocivil/delete':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller = createController('estadocivil');
+                $controller = new EstadocivilController();
                 $controller->delete();
             }
             break;
