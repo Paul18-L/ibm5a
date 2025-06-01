@@ -1,4 +1,5 @@
 <?php
+//base de datos configurar stalin francis
 class Database {
     private $host = "localhost";
     private $db_name = "ibm5a";
