@@ -123,43 +123,30 @@ switch ($route) {
         break;
 
     // TELEFONO
-    case 'telefono/edit':
-          $controller = new TelefonoController();
-          $controller->edit();
-                
-           break;
-    case'tenefono/create':
-          $controller = new TelefonoController();
-          $controller->crearformulario();
-         break;
-    case'telefono/edit':
-                if (isset($_GET['idtelefono'])) {
-                    
-                    $controller = new TelefonoController();
-                    $controller->edit($_GET['idtelefono']);
-                } else {
+    case'telefono':
+    case 'telefono/edix':
+         (new TelefonoController())-.index();
+        break;
           
-                    echo "Error: Falta el ID para editar.";
-                }
-                break;
-                case 'telefono/update':
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $controller = new TelefonoController();
-                        $controller->update();
-                    }
-                    break;
+    case'tenefono/create':
+       (new TelefonoController())-index();
+         break;
+    case'telefono/uptdate':
+        if (isset($_GET['idtelefono'])) (new DireccionController())->From($_GET['idtelefono']);
+         break;
+    case 'telefono/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->update();
+        break;
+    case 'telefono/delete':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->delete();
+        break;
+    case 'telefono/eliminar':
+        if (isset($_GET['idtelefono'])) (new TelefonoController())->deleteForm($_GET['idtelefono']);
+        break;
+                
  
 
-        case 'estadocivil':
-        case 'estadocivil/index':
-            $controller = new EstadoCivilController();
-            $controller->index();
-            break;
-        case 'estadocivil/edit':
-                if (isset($_GET['idestadocivil'])) {
-                    
-                    $controlle
-
+       
     // ESTADO CIVIL
     case 'estadocivil':
     case 'estadocivil/index':
