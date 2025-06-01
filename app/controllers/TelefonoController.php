@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Telefono.php';
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ibm5a/app/models/Persona.php';
+
 class TelefonoController {
     private $telefono;
     private $db;
@@ -14,7 +16,9 @@ class TelefonoController {
     public function __construct() {
         $this->db = (new Database())->getConnection();
         $this->telefono = new Telefono($this->db);
+        $this->persona = new Persona($this->db);
     }
+
 
     // Mostrar todos los teléfonos
     public function index() {
@@ -22,6 +26,14 @@ class TelefonoController {
         require_once '../app/views/telefono/index.php';
     }
 
+    public function formulario(){
+
+        $personajes=$este->persona->read();
+        require_one '../app/views/telefono/create.php';
+
+    }
+
+    
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Formulario recibido";
@@ -103,7 +115,24 @@ class TelefonoController {
             echo "Método incorrecto";
         }
         die();
-    }
+   
+  }
+
+}
+
+
+   public funcion API(){
+    
+          mientras(ob_obtener_nivel()) {
+          ob_end_clear();
+    
+         }
+         $telefonos=$este->telefono->ObtenerTodo();
+          encabezamiento('Tipo de Contenido: aplicacion/json');
+          eco codificacion json($telefonos);
+         salida;
+   }
+
 }
 
 if (isset($_GET['action'])) {
