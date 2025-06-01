@@ -123,19 +123,42 @@ switch ($route) {
         break;
 
     // TELEFONO
-    case 'telefono':
-    case 'telefono/index':
-        (new TelefonoController())->index();
-        break;
-    case 'telefono/create':
-        (new TelefonoController())->createForm();
-        break;
     case 'telefono/edit':
-        if (isset($_GET['idtelefono'])) (new TelefonoController())->edit($_GET['idtelefono']);
-        break;
-    case 'telefono/update':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->update();
-        break;
+          $controller = new TelefonoController();
+          $controller->edit();
+                
+           break;
+    case'tenefono/create':
+          $controller = new TelefonoController();
+          $controller->crearformulario();
+         break;
+    case'telefono/edit':
+                if (isset($_GET['idtelefono'])) {
+                    
+                    $controller = new TelefonoController();
+                    $controller->edit($_GET['idtelefono']);
+                } else {
+          
+                    echo "Error: Falta el ID para editar.";
+                }
+                break;
+                case 'telefono/update':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $controller = new TelefonoController();
+                        $controller->update();
+                    }
+                    break;
+ 
+
+        case 'estadocivil':
+        case 'estadocivil/index':
+            $controller = new EstadoCivilController();
+            $controller->index();
+            break;
+        case 'estadocivil/edit':
+                if (isset($_GET['idestadocivil'])) {
+                    
+                    $controlle
 
     // ESTADO CIVIL
     case 'estadocivil':
