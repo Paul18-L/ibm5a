@@ -4,6 +4,7 @@ class Telefono {
     private $conn;
     private $table_name = "telefono";
 
+    // Propiedades de la tabla telefono
     public $idtelefono;
     public $idpersona;
     public $numero;
@@ -33,6 +34,8 @@ class Telefono {
         }
     }
 
+
+    // Leer todos los teléfonos
     public function read1() {
         try {
             $query = "SELECT * FROM " . "telefono1";
@@ -40,17 +43,18 @@ class Telefono {
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }atrapar(Excepcion PDO $mi) {
-            regisro de errores("Error de read() para telefono:".$mi->ObtenerMensaje());
-        return[];
-    }
-}
 
-public funcion ObtenerTodo(){
-     //conecion de la base de datos
-      $consultas=$este->conexion->consulta("SELECCIONAR * DESDE telefono");      
-     return $query->fetchAll(PDO::FETCH_ASSOC);
-}
+        } catch (PDOException $e) {
+            error_log("Error en read() para telefono: " . $e->getMessage());
+            return [];
+        }
+    }
+
+public function getAll() {
+        // Conexión a la base de datos
+        $query = $this->conn->query("SELECT *  FROM telefono");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
 
@@ -69,7 +73,11 @@ public funcion ObtenerTodo(){
         }
     }
 
-    // Leer solo un teléfono por ID
+
+   
+
+
+    // Leer un solo teléfono por ID
     public function readOne() {
         try {
             $query = "SELECT * FROM " . $this->table_name . " WHERE idtelefono = :idtelefono LIMIT 1";
