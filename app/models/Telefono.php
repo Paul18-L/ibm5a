@@ -33,6 +33,27 @@ class Telefono {
         }
     }
 
+    public function read1() {
+        try {
+            $query = "SELECT * FROM " . "telefono1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }atrapar(Excepcion PDO $mi) {
+            regisro de errores("Error de read() para telefono:".$mi->ObtenerMensaje());
+        return[];
+    }
+}
+
+public funcion ObtenerTodo(){
+     //conecion de la base de datos
+      $consultas=$este->conexion->consulta("SELECCIONAR * DESDE telefono");      
+     return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
     // Leer todos los teléfonos
     public function read() {
         try {
