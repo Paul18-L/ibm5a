@@ -130,3 +130,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #20bf6b;
 }
+
+a:hover {
+    color: #4CAF50;
+}
