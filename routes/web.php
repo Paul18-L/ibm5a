@@ -123,30 +123,20 @@ switch ($route) {
         break;
 
     // TELEFONO
-    case'telefono':
-    case 'telefono/edix':
-         (new TelefonoController())-.index();
+    case 'telefono':
+    case 'telefono/index':
+        (new TelefonoController())->index();
         break;
-          
-    case'tenefono/create':
-       (new TelefonoController())-index();
-         break;
-    case'telefono/uptdate':
-        if (isset($_GET['idtelefono'])) (new DireccionController())->From($_GET['idtelefono']);
-         break;
+    case 'telefono/create':
+        (new TelefonoController())->createForm();
+        break;
+    case 'telefono/edit':
+        if (isset($_GET['idtelefono'])) (new TelefonoController())->edit($_GET['idtelefono']);
+        break;
     case 'telefono/update':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->update();
         break;
-    case 'telefono/delete':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new TelefonoController())->delete();
-        break;
-    case 'telefono/eliminar':
-        if (isset($_GET['idtelefono'])) (new TelefonoController())->deleteForm($_GET['idtelefono']);
-        break;
-                
- 
 
-       
     // ESTADO CIVIL
     case 'estadocivil':
     case 'estadocivil/index':
