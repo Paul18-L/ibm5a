@@ -20,7 +20,7 @@ class DireccionController {
 
     // Mostrar todos los teléfonos
     public function index() {
-        $direccion = $this->direccion->read();
+        $direccions = $this->direccion->read1();
         require_once '../app/views/direccion/index.php';
     }
 
@@ -28,7 +28,7 @@ class DireccionController {
     public function createForm() {
 
 
-        $persona = $this->persona->read();
+        $personas = $this->persona->read();
         require_once '../app/views/direccion/create.php';
     }
 
@@ -39,13 +39,13 @@ class DireccionController {
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Formulario recibido";
-            if (isset($_POST['idpersona']))  {
+            if (isset($_POST['nombre'])) {
                 $this->direccion->idpersona = $_POST['idpersona'];
-                $this->direccion->nombre = $_POST['direccion'];
+                $this->direccion->nombre = $_POST['nombre'];
                 if ($this->direccion->create()) {
-                    echo "direccion creada exitosamente";
+                    echo "Teléfono creado exitosamente";
                 } else {
-                    echo "Error al crear direccion";
+                    echo "Error al crear el teléfono";
                 }
             } else {
                 echo "Faltan datos";
@@ -59,7 +59,7 @@ class DireccionController {
     public function edit($iddireccion) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
-        $persona = $this->persona->read();
+        $personas = $this->persona->read();
 
         if (!$direccion) {
             die("Error: No se encontró el registro.");
@@ -68,7 +68,7 @@ class DireccionController {
         require_once '../app/views/direccion/edit.php';
     }
 
-    public function eliminar($iddireccion) {
+    public function eliminar($id) {
         $this->direccion->iddireccion = $iddireccion;
         $direccion = $this->direccion->readOne();
 
@@ -103,7 +103,7 @@ class DireccionController {
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
-                $this->direccion->iddireccion= $_POST['id'];
+                $this->direccion->id = $_POST['id'];
                 if ($this->direccion->delete()) {
                     echo "Teléfono borrado exitosamente";
                     die();
@@ -128,9 +128,9 @@ class DireccionController {
             ob_end_clean();
         }
 
-        $direccion = $this->direccion->getAll();
+        $direcciones = $this->direccion->getAll();
         header('Content-Type: application/json');
-        echo json_encode($direccion);
+        echo json_encode($direcciones);
         exit;
     }
 }
