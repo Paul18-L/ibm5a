@@ -10,23 +10,22 @@
 
 <div class="container">
     <h1>Listar direcciones</h1>
-    <a href="/ibm5a/app/views/direccion/create.php"><button>Agregar</button></a>
+    <a href="/ibm5a/public/direccion/createForm"><button>Agregar</button></a>
 
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>ID Dirección</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($direccion) && is_array($direccion)): ?>
-                <?php foreach ($direccion as $direccion): ?>
+            <?php if (!empty($direcciones) && is_array($direcciones)): ?>
+                <?php foreach ($direcciones as $direccion): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
-                        <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
                         <td><?php echo htmlspecialchars($direccion['iddireccion']); ?></td>
+                        <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
                         <td>
                             <a href="/ibm5a/public/direccion/edit?iddireccion=<?php echo htmlspecialchars($direccion['iddireccion']); ?>">
                                 <button>Editar</button>
