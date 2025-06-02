@@ -62,26 +62,40 @@ if (empty($route) || $route === '/') {
 // Ruteo
 switch ($route) {
     // PERSONA
-    case 'persona':
-    case 'persona/index':
-        (new PersonaController())->index();
-        break;
-    case 'persona/create':
-        (new PersonaController())->createForm();
-        break;
-    case 'persona/edit':
-        if (isset($_GET['idpersona'])) (new PersonaController())->edit($_GET['idpersona']);
-        break;
-    case 'persona/update':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') (new PersonaController())->update();
-        break;
-    case 'persona/eliminar':
-        if (isset($_GET['idpersona'])) (new PersonaController())->eliminar($_GET['idpersona']);
-        break;
-    case 'persona/delete':
-    case 'persona/view':
-        if (isset($_GET['idpersona'])) (new PersonaController())->registro($_GET['idpersona']);
-        break;
+case 'persona':
+case 'persona/index':
+    (new PersonaController())->index();
+    break;
+case 'persona/create':
+    (new PersonaController())->createForm();
+    break;
+case 'persona/edit':
+    if (isset($_GET['idpersona'])) {
+        (new PersonaController())->edit($_GET['idpersona']);
+    } else {
+        echo "Error: Falta el ID para editar.";
+    }
+    break;
+case 'persona/update':
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        (new PersonaController())->update();
+    }
+    break;
+case 'persona/eliminar':
+case 'persona/delete': // unifica delete con eliminar
+    if (isset($_GET['idpersona'])) {
+        (new PersonaController())->eliminar($_GET['idpersona']);
+    } else {
+        echo "Error: Falta el ID para eliminar.";
+    }
+    break;
+case 'persona/view':
+    if (isset($_GET['idpersona'])) {
+        (new PersonaController())->registro($_GET['idpersona']);
+    } else {
+        echo "Error: Falta el ID para ver.";
+    }
+    break;
 
     // SEXO
     case 'sexo':
@@ -101,33 +115,46 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') (new SexoController())->delete();
         break;
 
-    // DIRECCION
-    
-    case 'direccion':
-        case 'direccion/index':
-            $controller = new DireccionController();
-            $controller->index();
-            break;
-        case 'direccion/create':
-            $controller = new DireccionController();
-            $controller->createForm();
-            break;
-        case 'direccion/edit':
-                if (isset($_GET['iddireccion'])) {
-                    
-                    $controller = new DireccionController();
-                    $controller->edit($_GET['iddireccion']);
-                } else {
-                    echo "Error: Falta el ID para editar.";
-                }
-                break;
-                case 'direccion/update':
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $controller = new DireccionController();
-                        $controller->update();
-                    }
+// DIRECCIÓN
+case 'direccion':
+case 'direccion/index':
+    (new DireccionController())->index();
+    break;
 
-        break;
+case 'direccion/create':
+    (new DireccionController())->createForm();
+    break;
+
+case 'direccion/edit':
+    if (isset($_GET['iddireccion'])) {
+        (new DireccionController())->edit($_GET['iddireccion']);
+    } else {
+        echo "Error: Falta el ID para editar.";
+    }
+    break;
+
+case 'direccion/update':
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        (new DireccionController())->update();
+    }
+    break;
+
+case 'direccion/eliminar':
+case 'direccion/delete':
+    if (isset($_GET['iddireccion'])) {
+        (new DireccionController())->eliminar($_GET['iddireccion']);
+    } else {
+        echo "Error: Falta el ID para eliminar.";
+    }
+    break;
+
+case 'direccion/view':
+    if (isset($_GET['iddireccion'])) {
+        (new DireccionController())->registro($_GET['iddireccion']);
+    } else {
+        echo "Error: Falta el ID para ver.";
+    }
+    break;
 
     // TELEFONO
     case 'telefono':
