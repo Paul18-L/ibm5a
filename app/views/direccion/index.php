@@ -16,8 +16,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($direccion) && is_array($direccion)): ?>
-            <?php foreach ($direccion as $direccion): ?>
+        <?php if (!empty($direcciones) && is_array($direcciones)): ?>
+            <?php foreach ($direcciones as $direccion): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($direccion['idpersona']); ?></td>
                     <td><?php echo htmlspecialchars($direccion['nombre']); ?></td>
