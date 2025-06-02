@@ -63,11 +63,11 @@
 
 <div class="form-container">
     <h2>Agregar Dirección</h2>
-    <form action="../../app/controllers/DireccionController.php?action=create" method="POST">                                                                              
+    <form action="../../app/controllers/DireccionController.php/create" method="POST">                                                                              
         <label for="idpersona">Persona:</label>
         <select name="idpersona" id="idpersona" required>
             <option value="">Seleccione una persona</option>
-            <?php foreach ($persona as $persona): ?>
+            <?php foreach ($personas as $persona): ?>
                 <option value="<?= $persona['idpersona'] ?>">
                     <?= $persona['apellido'] . ' ' . $persona['nombre'] ?>
                 </option>
